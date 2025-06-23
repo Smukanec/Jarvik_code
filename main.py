@@ -11,7 +11,6 @@ os.makedirs(os.path.dirname(memory_path), exist_ok=True)
 open(memory_path, "a", encoding="utf-8").close()
 
 app = Flask(__name__)
-debug_log = []
 
 # Načti znalosti při startu
 knowledge_base = load_knowledge(os.path.join(BASE_DIR, "knowledge"))
@@ -29,9 +28,9 @@ def append_to_memory(user_msg, ai_response):
 
 @app.route("/ask", methods=["POST"])
 def ask():
+    debug_log = []
     data = request.get_json(silent=True)
     message = (data or {}).get("message", "")
-    debug_log.clear()
 
     memory_context = load_memory()
     debug_log.append(f"🧠 Paměť: {len(memory_context)} záznamů")
