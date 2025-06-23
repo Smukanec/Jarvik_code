@@ -1,3 +1,4 @@
+#!/bin/bash
 cat << 'EOF' >> ~/.bashrc
 
 # 🚀 Alias příkazy pro JARVIK
