@@ -3,6 +3,11 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR" || exit
 set -e
 
+# Optional cleanup
+if [ "$1" = "--clean" ]; then
+  bash "$DIR/uninstall_jarvik.sh"
+fi
+
 echo "🔧 Instalace závislostí pro Jarvika..."
 
 # Vytvoření složek
