@@ -1,4 +1,7 @@
 #!/bin/bash
+DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$DIR" || exit
+set -e
 
 echo "🔧 Instalace závislostí pro Jarvika..."
 
