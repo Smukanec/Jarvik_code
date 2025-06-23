@@ -3,13 +3,16 @@ from rag_engine import load_knowledge, search_knowledge
 import json
 import os
 
+# Set base directory relative to this file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+memory_path = os.path.join(BASE_DIR, "memory", "public.jsonl")
+
 app = Flask(__name__)
-memory_path = "memory/public.jsonl"
 log = []
 debug_log = []
 
 # Načti znalosti při startu
-knowledge_base = load_knowledge("knowledge")
+knowledge_base = load_knowledge(os.path.join(BASE_DIR, "knowledge"))
 print("✅ Znalosti načteny.")
 
 def load_memory():
