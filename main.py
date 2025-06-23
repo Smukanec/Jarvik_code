@@ -11,7 +11,6 @@ os.makedirs(os.path.dirname(memory_path), exist_ok=True)
 open(memory_path, "a", encoding="utf-8").close()
 
 app = Flask(__name__)
-log = []
 debug_log = []
 
 # Načti znalosti při startu
