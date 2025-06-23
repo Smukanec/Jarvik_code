@@ -76,3 +76,14 @@ starts Flask you can also use:
 ```bash
 bash run_jarvik.sh
 ```
+
+## Real-time Monitoring
+
+To continuously watch Jarvik's state and recent logs, run:
+
+```bash
+bash monitor.sh
+```
+
+The script refreshes every two seconds and shows the last lines from
+`flask.log`, `mistral.log` and `ollama.log` produced by `start.sh`.
