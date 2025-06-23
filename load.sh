@@ -1,11 +1,13 @@
-cat << 'EOF' >> ~/.bashrc
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+cat >> ~/.bashrc <<EOF
 
 # 🚀 Alias příkazy pro JARVIK
-alias jarvik='bash ~/Jarvik_RAG/activate.sh'
-alias jarvik-start='bash ~/Jarvik_RAG/start.sh'
-alias jarvik-status='bash ~/Jarvik_RAG/status.sh'
-alias jarvik-install='bash ~/Jarvik_RAG/install_jarvik.sh'
-alias jarvik-flask='source ~/Jarvik_RAG/venv/bin/activate && python ~/Jarvik_RAG/main.py'
+alias jarvik='bash $DIR/activate.sh'
+alias jarvik-start='bash $DIR/start.sh'
+alias jarvik-status='bash $DIR/status.sh'
+alias jarvik-install='bash $DIR/install_jarvik.sh'
+alias jarvik-flask='source $DIR/venv/bin/activate && python $DIR/main.py'
 
 EOF
 
