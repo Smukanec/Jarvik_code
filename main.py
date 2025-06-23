@@ -29,8 +29,8 @@ def append_to_memory(user_msg, ai_response):
 
 @app.route("/ask", methods=["POST"])
 def ask():
-    data = request.get_json()
-    message = data.get("message", "")
+    data = request.get_json(silent=True)
+    message = (data or {}).get("message", "")
     debug_log.clear()
 
     memory_context = load_memory()
