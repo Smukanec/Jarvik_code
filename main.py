@@ -6,6 +6,9 @@ import os
 # Set base directory relative to this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 memory_path = os.path.join(BASE_DIR, "memory", "public.jsonl")
+# Ensure memory directory and file exist
+os.makedirs(os.path.dirname(memory_path), exist_ok=True)
+open(memory_path, "a", encoding="utf-8").close()
 
 app = Flask(__name__)
 log = []
