@@ -1,0 +1,55 @@
+# Jarvik – Manuál k instalaci a použití
+
+Tento krátký manuál popisuje základní kroky pro instalaci a spuštění Jarvika na lokálním stroji.
+
+## Instalace
+
+1. Spusťte instalační skript, který vytvoří virtuální prostředí a nainstaluje závislosti:
+   ```bash
+   bash install_jarvik.sh
+   ```
+   Pro čistou instalaci můžete použít přepínač `--clean`, který nejprve odstraní případné starší soubory:
+   ```bash
+   bash install_jarvik.sh --clean
+   ```
+
+2. Po dokončení instalace načtěte aliasy usnadňující práci se skripty:
+   ```bash
+   bash load.sh
+   ```
+   Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start` či `jarvik-status`.
+
+## Spuštění
+
+Jarvika spustíte buď přímo pomocí skriptu `start.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
+```bash
+bash start.sh
+# nebo
+jarvik-start
+```
+Skript aktivuje virtuální prostředí, spustí Ollamu, model Mistral a nakonec Flask server na portu 8010.
+
+## Stav běžících služeb
+
+Aktuální stav zjistíte skriptem `status.sh` nebo aliasem `jarvik-status`:
+```bash
+bash status.sh
+# nebo
+jarvik-status
+```
+Zobrazí se informace o běžících procesech a dostupnosti znalostních souborů.
+
+## Ukončení a odinstalování
+
+Pro zastavení všech služeb a odstranění prostředí použijte:
+```bash
+bash uninstall_jarvik.sh
+```
+Skript ukončí Ollamu, Mistral i Flask, smaže adresáře `venv/` a `memory/` a vyčistí aliasy z `~/.bashrc`.
+
+## Rychlý start
+
+Pro jednorázové spuštění všech komponent slouží skript `run_jarvik.sh`, který aktivuje prostředí, spustí model i server v jednom kroku:
+```bash
+bash run_jarvik.sh
+```
