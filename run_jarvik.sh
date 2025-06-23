@@ -7,8 +7,8 @@ cd "$(dirname "$0")" || exit
 
 # Aktivuj venv
 if [[ -z "$VIRTUAL_ENV" ]]; then
-  echo -e "${GREEN}✅ Aktivováno virtuální prostředí JARVIK (venv)${NC}"
   source venv/bin/activate
+  echo -e "${GREEN}✅ Aktivováno virtuální prostředí JARVIK (venv)${NC}"
 fi
 
 # Spustit Ollama
@@ -18,14 +18,10 @@ if ! pgrep -f "ollama serve" > /dev/null; then
   sleep 3
 fi
 
-# Spustit model mistral pomocí jednoho dotazu (trik na načtení do paměti)
+# Spustit model mistral, pokud neběží
 if ! curl -s http://localhost:11434/api/tags | grep -q '"name":"mistral"'; then
-  echo -e "${GREEN}🧠 Spouštím model mistral přes API...${NC}"
-  curl -s http://localhost:11434/api/generate -d '{
-    "model": "mistral",
-    "prompt": "ping",
-    "stream": false
-  }' > /dev/null
+  echo -e "${GREEN}🧠 Spouštím model mistral...${NC}"
+  nohup ollama run mistral > /dev/null 2>&1 &
   sleep 2
 fi
 

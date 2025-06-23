@@ -53,6 +53,8 @@ or via the alias:
 ```bash
 jarvik-status
 ```
+The script expects the Mistral model to be running persistently via
+`ollama run mistral`.
 
 ## Stopping Jarvik and Uninstall
 
