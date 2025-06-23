@@ -2,11 +2,18 @@ from flask import Flask, request, jsonify
 from rag_engine import load_knowledge, search_knowledge
 import json
 import os
+import logging
 
 app = Flask(__name__)
 memory_path = "memory/public.jsonl"
-log = []
 debug_log = []
+
+logging.basicConfig(
+    filename="flask.log",
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 # Načti znalosti při startu
 knowledge_base = load_knowledge("knowledge")
@@ -26,6 +33,7 @@ def append_to_memory(user_msg, ai_response):
 def ask():
     data = request.get_json()
     message = data.get("message", "")
+    logger.info("Incoming request: %s", message)
     debug_log.clear()
 
     memory_context = load_memory()
@@ -33,6 +41,11 @@ def ask():
 
     rag_context = search_knowledge(message, knowledge_base)
     debug_log.append(f"📚 Kontext z RAG: {len(rag_context)} výsledků")
+    logger.info(
+        "Memory entries: %d, RAG results: %d",
+        len(memory_context),
+        len(rag_context),
+    )
 
     # Vytvoření promptu pro model
     prompt = f"Uživatel: {message}\n"
@@ -53,8 +66,10 @@ def ask():
     except Exception as e:
         output = "❌ Chyba při komunikaci s Ollamou"
         debug_log.append(str(e))
+        logger.exception("Error communicating with Ollama")
 
     append_to_memory(message, output)
+    logger.info("Response: %s", output)
     return jsonify({"response": output, "debug": debug_log})
 
 @app.route("/")
