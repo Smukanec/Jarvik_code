@@ -2,7 +2,7 @@
 GREEN="\033[1;32m"
 RED="\033[1;31m"
 NC="\033[0m"
-MODEL_NAME=${MODEL_NAME:-jarvik-mistral}
+MODEL_NAME=${MODEL_NAME:-mistral}
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR" || exit

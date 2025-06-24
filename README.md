@@ -35,7 +35,8 @@ bash start.sh
 ```
 
 The script checks for required commands and automatically downloads the
-`mistral` model if it is missing. Po spuštění vypíše, zda se všechny části
+selected model (defaults to `mistral`) if it is missing. Po spuštění vypíše,
+zda se všechny části
 správně nastartovaly, případné chyby hledejte v souborech `*.log`.
 With the aliases loaded you can simply type:
 
@@ -49,7 +50,7 @@ All management scripts honour the `MODEL_NAME` environment variable. To start
 Jarvik with another model set the variable when invoking the script:
 
 ```bash
-MODEL_NAME=mistral bash start.sh  # run with a different model
+MODEL_NAME=llama3 bash start.sh  # run with a different model
 ```
 
 ## Checking Status
@@ -65,8 +66,8 @@ or via the alias:
 ```bash
 jarvik-status
 ```
-The script expects the Mistral model to be running persistently via
-`ollama run mistral`.
+The script expects the chosen model to be running persistently via
+`ollama run $MODEL_NAME` (defaults to `mistral`).
 
 ## Stopping Jarvik and Uninstall
 
@@ -76,7 +77,7 @@ Jarvik can be stopped and fully removed using the uninstall script:
 bash uninstall_jarvik.sh
 ```
 
-The script stops Ollama, Mistral and Flask, removes the `venv/` and
+The script stops Ollama, the running model and Flask, removes the `venv/` and
 `memory/` directories and cleans the Jarvik aliases from `~/.bashrc`.
 
 ## Quick Start Script
@@ -108,7 +109,7 @@ restart missing processes automatically:
 bash watchdog.sh
 ```
 
-The watchdog checks every five seconds that Ollama, the Mistral model and
+The watchdog checks every five seconds that Ollama, the selected model and
 the Flask server are up and restarts them when needed.
 
 ## Upgrade
