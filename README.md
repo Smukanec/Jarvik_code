@@ -23,8 +23,8 @@ After installation, add handy shell aliases by executing `load.sh`:
 bash load.sh
 ```
 
-This will append alias commands such as `jarvik-start` and `jarvik-status`
-to your `~/.bashrc` and reload the file.
+This will append alias commands such as `jarvik-start`, `jarvik-status` and
+`jarvik-model` to your `~/.bashrc` and reload the file.
 
 ## Starting Jarvik
 
@@ -51,6 +51,20 @@ set the variable when invoking the script:
 
 ```bash
 MODEL_NAME=mistral bash start.sh  # run with a different model
+```
+
+### Starting only the model
+
+When you just need the model running without Flask, use:
+
+```bash
+bash start_model.sh
+```
+
+With aliases loaded this is simply:
+
+```bash
+jarvik-model
 ```
 
 ## Checking Status
