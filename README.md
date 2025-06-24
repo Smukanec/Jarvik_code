@@ -91,6 +91,18 @@ bash monitor.sh
 The script refreshes every two seconds and shows the last lines from
 `flask.log`, `mistral.log` and `ollama.log` produced by `start.sh`.
 
+## Automatic Restart
+
+If any component stops running, you can launch a watchdog that will
+restart missing processes automatically:
+
+```bash
+bash watchdog.sh
+```
+
+The watchdog checks every five seconds that Ollama, the Mistral model and
+the Flask server are up and restarts them when needed.
+
 ## Upgrade
 
 To download the latest version, reinstall and start Jarvik automatically run:
