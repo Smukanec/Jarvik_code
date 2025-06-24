@@ -5,6 +5,10 @@
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR" || exit
 
+# Default model name if not provided
+MODEL_NAME=${MODEL_NAME:-mistral}
+MODEL_LOG="${MODEL_NAME}.log"
+
 while true; do
   clear
   echo "===== Stav Jarvika ====="
@@ -20,12 +24,12 @@ while true; do
     echo
   fi
 
-  if [ -f mistral.log ]; then
+  if [ -f "$MODEL_LOG" ]; then
     echo "--- Poslední logy Mistralu ---"
-    tail -n 5 mistral.log
-    echo
+    tail -n 5 "$MODEL_LOG"
+  echo
   else
-    echo "(Žádný mistral.log)"
+    echo "(Žádný $MODEL_LOG)"
     echo
   fi
 

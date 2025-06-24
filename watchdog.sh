@@ -3,6 +3,7 @@ GREEN="\033[1;32m"
 RED="\033[1;31m"
 NC="\033[0m"
 MODEL_NAME=${MODEL_NAME:-jarvik-mistral}
+MODEL_LOG="${MODEL_NAME}.log"
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR" || exit
@@ -24,7 +25,7 @@ check_ollama() {
 check_mistral() {
   if ! pgrep -f "ollama run $MODEL_NAME" > /dev/null; then
     echo -e "${RED}⚠️  Model $MODEL_NAME neběží. Restartuji...${NC}"
-    nohup ollama run "$MODEL_NAME" >> mistral.log 2>&1 &
+    nohup ollama run "$MODEL_NAME" >> "$MODEL_LOG" 2>&1 &
   fi
 }
 

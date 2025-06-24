@@ -6,6 +6,11 @@ NC='\033[0m'
 
 cd "$(dirname "$0")" || exit
 
+# Default model name can be overridden via MODEL_NAME
+MODEL_NAME=${MODEL_NAME:-mistral}
+# Log file for the running model
+MODEL_LOG="${MODEL_NAME}.log"
+
 # Aktivuj venv
 if [[ -z "$VIRTUAL_ENV" ]]; then
   if [ -f venv/bin/activate ]; then
@@ -53,10 +58,10 @@ fi
 # Spustit model mistral, pokud neběží
 if ! pgrep -f "ollama run mistral" > /dev/null; then
   echo -e "${GREEN}🧠 Spouštím model mistral...${NC}"
-  nohup ollama run mistral > mistral.log 2>&1 &
+  nohup ollama run mistral > "$MODEL_LOG" 2>&1 &
   sleep 2
   if ! pgrep -f "ollama run mistral" > /dev/null; then
-    echo -e "${RED}❌ Model mistral se nespustil, zkontrolujte mistral.log${NC}"
+    echo -e "${RED}❌ Model mistral se nespustil, zkontrolujte $MODEL_LOG${NC}"
     exit 1
   fi
 fi
