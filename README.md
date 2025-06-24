@@ -83,15 +83,6 @@ bash uninstall_jarvik.sh
 The script stops Ollama, Mistral and Flask, removes the `venv/` and
 `memory/` directories and cleans the Jarvik aliases from `~/.bashrc`.
 
-## Quick Start Script
-
-For a single command that activates the environment, loads the model and
-starts Flask you can also use:
-
-```bash
-bash run_jarvik.sh
-```
-
 ## Real-time Monitoring
 
 To continuously watch Jarvik's state and recent logs, run:

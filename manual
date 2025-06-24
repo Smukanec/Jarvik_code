@@ -54,13 +54,6 @@ bash uninstall_jarvik.sh
 ```
 Skript ukončí Ollamu, Mistral i Flask, smaže adresáře `venv/` a `memory/` a vyčistí aliasy z `~/.bashrc`.
 
-## Rychlý start
-
-Pro jednorázové spuštění všech komponent slouží skript `run_jarvik.sh`, který aktivuje prostředí, spustí model i server v jednom kroku:
-```bash
-bash run_jarvik.sh
-```
-
 ## Upgrade
 
 Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh` (alias `update.sh`):
