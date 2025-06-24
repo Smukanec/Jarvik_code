@@ -35,12 +35,19 @@ if ! pgrep -f "ollama serve" > /dev/null; then
     fi
     sleep 1
   done
+  if ! curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+    echo -e "${RED}❌ Ollama se nespustila, zkontrolujte ollama.log${NC}"
+    exit 1
+  fi
 fi
 
 # Ověřit dostupnost modelu mistral a případně jej stáhnout
 if ! ollama list 2>/dev/null | grep -q '^mistral'; then
   echo -e "${GREEN}⬇️  Stahuji model mistral...${NC}"
-  ollama pull mistral >> ollama.log 2>&1
+  if ! ollama pull mistral >> ollama.log 2>&1; then
+    echo -e "${RED}❌ Stažení modelu selhalo, zkontrolujte připojení${NC}"
+    exit 1
+  fi
 fi
 
 # Spustit mistral, pokud neběží
@@ -48,8 +55,18 @@ if ! pgrep -f "ollama run mistral" > /dev/null; then
   echo -e "${GREEN}🧠 Spouštím model mistral...${NC}"
   nohup ollama run mistral > mistral.log 2>&1 &
   sleep 2
+  if ! pgrep -f "ollama run mistral" > /dev/null; then
+    echo -e "${RED}❌ Model mistral se nespustil, zkontrolujte mistral.log${NC}"
+    exit 1
+  fi
 fi
 
 # Spustit Flask
 echo -e "${GREEN}🌐 Spouštím Flask server...${NC}"
 nohup python3 main.py > flask.log 2>&1 &
+sleep 2
+if ! (ss -tuln 2>/dev/null | grep -q ":8010" || nc -z localhost 8010 >/dev/null 2>&1); then
+  echo -e "${RED}❌ Flask se nespustil, zkontrolujte flask.log${NC}"
+  exit 1
+fi
+echo -e "${GREEN}✅ Jarvik běží na http://localhost:8010${NC}"

@@ -35,7 +35,9 @@ bash start.sh
 ```
 
 The script checks for required commands and automatically downloads the
-`mistral` model if it is missing. With the aliases loaded you can simply type:
+`mistral` model if it is missing. Po spuštění vypíše, zda se všechny části
+správně nastartovaly, případné chyby hledejte v souborech `*.log`.
+With the aliases loaded you can simply type:
 
 ```bash
 jarvik-start
