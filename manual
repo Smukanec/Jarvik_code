@@ -28,6 +28,7 @@ bash start.sh
 jarvik-start
 ```
 Skript aktivuje virtuální prostředí, spustí Ollamu, model Mistral a nakonec Flask server na portu 8010.
+Pokud model chybí, stáhne se automaticky.
 
 ## Stav běžících služeb
 
@@ -53,3 +54,11 @@ Pro jednorázové spuštění všech komponent slouží skript `run_jarvik.sh`, 
 ```bash
 bash run_jarvik.sh
 ```
+
+## Upgrade
+
+Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh`:
+```bash
+bash upgrade.sh
+```
+Skript stáhne nové soubory z repozitáře, provede odinstalování, znovu nainstaluje závislosti, obnoví aliasy v `~/.bashrc` a spustí Jarvika.

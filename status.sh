@@ -21,7 +21,16 @@ else
 fi
 
 # Flask port 8010
-if ss -tuln | grep -q ":8010"; then
+if command -v ss >/dev/null 2>&1; then
+  ss -tuln | grep -q ":8010"
+  port_check=$?
+elif command -v nc >/dev/null 2>&1; then
+  nc -z localhost 8010 >/dev/null 2>&1
+  port_check=$?
+else
+  port_check=1
+fi
+if [ "$port_check" = 0 ]; then
   echo -e "✅ Flask běží (port 8010)"
 else
   echo -e "❌ Flask (port 8010) neběží"
