@@ -35,7 +35,9 @@ bash start.sh
 ```
 
 The script checks for required commands and automatically downloads the
-`mistral` model if it is missing. With the aliases loaded you can simply type:
+`mistral` model if it is missing. Po spuštění vypíše, zda se všechny části
+správně nastartovaly, případné chyby hledejte v souborech `*.log`.
+With the aliases loaded you can simply type:
 
 ```bash
 jarvik-start
@@ -97,7 +99,7 @@ To download the latest version, reinstall and start Jarvik automatically run:
 bash upgrade.sh  # nebo update.sh
 ```
 
-The script pulls the newest repository files, performs an uninstall, installs the dependencies again, reloads the shell aliases and starts all components.
+The script pulls the newest repository files, performs an uninstall, reinstalls the dependencies, reloads the shell aliases and starts all components. It reports whether Jarvik started successfully so you can check the logs if not.
 
 ## License
 

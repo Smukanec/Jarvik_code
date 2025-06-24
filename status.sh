@@ -19,6 +19,10 @@ if pgrep -f "ollama run mistral" > /dev/null; then
 else
   echo -e "❌ Model Mistral NEběží"
   if command -v ollama >/dev/null 2>&1; then
+    # Pokud běží Ollama, ale proces Mistral chybí, zkus ověřit port 11434
+    if ss -tuln 2>/dev/null | grep -q ":11434" || nc -z localhost 11434 >/dev/null 2>&1; then
+      echo "   Ollama běží, ale proces mistral nebyl nalezen."
+    fi
     echo "   Spusťte jej příkazem 'ollama run mistral &' nebo 'jarvik-start'."
   else
     echo "   Chybí program 'ollama'."

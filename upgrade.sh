@@ -37,6 +37,9 @@ fi
 bash load.sh
 
 # Start automatically
-bash start.sh
-
-echo -e "${GREEN}✅ Upgrade dokončen.${NC}"
+if bash start.sh; then
+  echo -e "${GREEN}✅ Upgrade dokončen.${NC}"
+else
+  echo -e "${RED}❌ Spuštění Jarvika selhalo. Zkontrolujte logy.${NC}"
+  exit 1
+fi
