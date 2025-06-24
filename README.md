@@ -98,7 +98,7 @@ bash monitor.sh
 ```
 
 The script refreshes every two seconds and shows the last lines from
-`flask.log`, `mistral.log` and `ollama.log` produced by `start.sh`.
+`flask.log`, `<model>.log` and `ollama.log` produced by `start.sh`.
 
 ## Automatic Restart
 
