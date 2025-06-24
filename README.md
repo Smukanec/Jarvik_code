@@ -43,6 +43,15 @@ With the aliases loaded you can simply type:
 jarvik-start
 ```
 
+### Running with a different model
+
+All management scripts honour the `MODEL_NAME` environment variable. To start
+Jarvik with another model set the variable when invoking the script:
+
+```bash
+MODEL_NAME=mistral bash start.sh  # run with a different model
+```
+
 ## Checking Status
 
 See which services are running using:
