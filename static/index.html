@@ -92,10 +92,11 @@
       });
 
       const data = await res.json();
+      const timestamp = new Date().toLocaleTimeString();
 
       document.getElementById("response").textContent = data.response || "❌ Chyba odpovědi";
       document.getElementById("debug").textContent = data.debug ? data.debug.join("\n") : "(žádný debug)";
-      conversationLog += `👤 ${msg}\n🤖 ${data.response}\n\n`;
+      conversationLog += `[${timestamp}] 👤 ${msg}\n[${timestamp}] 🤖 ${data.response}\n\n`;
       document.getElementById("log").textContent = conversationLog;
 
       document.getElementById("message").value = "";
