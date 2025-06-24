@@ -97,3 +97,8 @@ bash upgrade.sh
 ```
 
 The script pulls the newest repository files, performs an uninstall, installs the dependencies again and starts all components.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
