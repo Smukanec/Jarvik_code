@@ -28,6 +28,7 @@ bash start.sh
 jarvik-start
 ```
 Skript aktivuje virtuální prostředí, spustí Ollamu, model Mistral a nakonec Flask server na portu 8010.
+Pokud model chybí, stáhne se automaticky.
 
 ## Stav běžících služeb
 
