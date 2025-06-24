@@ -87,3 +87,13 @@ bash monitor.sh
 
 The script refreshes every two seconds and shows the last lines from
 `flask.log`, `mistral.log` and `ollama.log` produced by `start.sh`.
+
+## Upgrade
+
+To download the latest version, reinstall and start Jarvik automatically run:
+
+```bash
+bash upgrade.sh
+```
+
+The script pulls the newest repository files, performs an uninstall, installs the dependencies again and starts all components.
