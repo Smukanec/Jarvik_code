@@ -97,7 +97,7 @@ To download the latest version, reinstall and start Jarvik automatically run:
 bash upgrade.sh
 ```
 
-The script pulls the newest repository files, performs an uninstall, installs the dependencies again and starts all components.
+The script pulls the newest repository files, performs an uninstall, installs the dependencies again, reloads the shell aliases and starts all components.
 
 ## License
 

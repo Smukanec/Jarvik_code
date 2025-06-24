@@ -18,9 +18,12 @@ else
   echo -e "${GREEN}⚠️  Adresář není git repozitář, stahování vynecháno.${NC}"
 fi
 
-# Reinstall
+# Reinstall dependencies
 bash uninstall_jarvik.sh
 bash install_jarvik.sh
+
+# Re-add shell aliases
+bash load.sh
 
 # Start automatically
 bash start.sh

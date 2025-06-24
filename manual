@@ -54,3 +54,11 @@ Pro jednorázové spuštění všech komponent slouží skript `run_jarvik.sh`, 
 ```bash
 bash run_jarvik.sh
 ```
+
+## Upgrade
+
+Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh`:
+```bash
+bash upgrade.sh
+```
+Skript stáhne nové soubory z repozitáře, provede odinstalování, znovu nainstaluje závislosti, obnoví aliasy v `~/.bashrc` a spustí Jarvika.
