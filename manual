@@ -17,7 +17,8 @@ Tento krátký manuál popisuje základní kroky pro instalaci a spuštění Jar
    ```bash
    bash load.sh
    ```
-   Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start` či `jarvik-status`.
+   Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`
+   a `jarvik-model`.
 
 ## Spuštění
 
@@ -31,6 +32,20 @@ Skript aktivuje virtuální prostředí, spustí Ollamu, zvolený model (výchoz
 mistral) a nakonec Flask server na portu 8010. Pokud model chybí, stáhne se
 automaticky. Pro jiný model nastavte proměnnou `MODEL_NAME` při spuštění –
 stejnou hodnotu používá i samotná Flask aplikace.
+
+### Spuštění pouze modelu
+
+Pokud potřebujete jen běžící model bez Flasku, spusťte:
+
+```bash
+bash start_model.sh
+```
+
+Po načtení aliasů stačí příkaz:
+
+```bash
+jarvik-model
+```
 
 ## Stav běžících služeb
 
