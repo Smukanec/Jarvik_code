@@ -46,22 +46,22 @@ if ! pgrep -f "ollama serve" > /dev/null; then
   fi
 fi
 
-# Zajistit stažení modelu mistral
-if ! ollama list 2>/dev/null | grep -q '^mistral'; then
-  echo -e "${GREEN}⬇️  Stahuji model mistral...${NC}"
-  if ! ollama pull mistral >> ollama.log 2>&1; then
+# Zajistit stažení zvoleného modelu
+if ! ollama list 2>/dev/null | grep -q "^$MODEL_NAME"; then
+  echo -e "${GREEN}⬇️  Stahuji model $MODEL_NAME...${NC}"
+  if ! ollama pull "$MODEL_NAME" >> ollama.log 2>&1; then
     echo -e "${RED}❌ Stažení modelu selhalo, zkontrolujte připojení${NC}"
     exit 1
   fi
 fi
 
-# Spustit model mistral, pokud neběží
-if ! pgrep -f "ollama run mistral" > /dev/null; then
-  echo -e "${GREEN}🧠 Spouštím model mistral...${NC}"
-  nohup ollama run mistral > "$MODEL_LOG" 2>&1 &
+# Spustit model, pokud neběží
+if ! pgrep -f "ollama run $MODEL_NAME" > /dev/null; then
+  echo -e "${GREEN}🧠 Spouštím model $MODEL_NAME...${NC}"
+  nohup ollama run "$MODEL_NAME" > "$MODEL_LOG" 2>&1 &
   sleep 2
-  if ! pgrep -f "ollama run mistral" > /dev/null; then
-    echo -e "${RED}❌ Model mistral se nespustil, zkontrolujte $MODEL_LOG${NC}"
+  if ! pgrep -f "ollama run $MODEL_NAME" > /dev/null; then
+    echo -e "${RED}❌ Model $MODEL_NAME se nespustil, zkontrolujte $MODEL_LOG${NC}"
     exit 1
   fi
 fi

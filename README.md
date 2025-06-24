@@ -35,8 +35,9 @@ bash start.sh
 ```
 
 The script checks for required commands and automatically downloads the
-`mistral` model if it is missing. Po spuštění vypíše, zda se všechny části
-správně nastartovaly, případné chyby hledejte v souborech `*.log`.
+model specified in `MODEL_NAME` (defaults to `mistral`) if it is missing.
+Po spuštění vypíše, zda se všechny části správně nastartovaly, případné
+chyby hledejte v souborech `*.log`.
 With the aliases loaded you can simply type:
 
 ```bash
@@ -50,8 +51,10 @@ API will query whichever model is specified. To start Jarvik with another model
 set the variable when invoking the script:
 
 ```bash
-MODEL_NAME=mistral bash start.sh  # run with a different model
+MODEL_NAME="mistral:7b-Q4_K_M" bash start.sh  # run with a different model
 ```
+
+All provided scripts now fully honour this variable.
 
 ## Checking Status
 
