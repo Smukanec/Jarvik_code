@@ -3,3 +3,10 @@ venv/
 *.log
 memory/*.jsonl
 memory/**.jsonl
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Misc
+.DS_Store
