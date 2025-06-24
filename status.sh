@@ -18,6 +18,11 @@ if pgrep -f "ollama run mistral" > /dev/null; then
   echo -e "✅ Model Mistral běží"
 else
   echo -e "❌ Model Mistral NEběží"
+  if command -v ollama >/dev/null 2>&1; then
+    echo "   Spusťte jej příkazem 'ollama run mistral &' nebo 'jarvik-start'."
+  else
+    echo "   Chybí program 'ollama'."
+  fi
 fi
 
 # Flask port 8010
