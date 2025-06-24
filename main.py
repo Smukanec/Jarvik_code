@@ -26,6 +26,16 @@ def append_to_memory(user_msg, ai_response):
     with open(memory_path, "a", encoding="utf-8") as f:
         f.write(json.dumps({"user": user_msg, "jarvik": ai_response}) + "\n")
 
+def search_memory(query, memory_entries):
+    results = []
+    q = query.lower()
+    for entry in reversed(memory_entries):
+        if q in entry.get("user", "").lower() or q in entry.get("jarvik", "").lower():
+            results.append(entry)
+        if len(results) >= 5:
+            break
+    return results
+
 @app.route("/ask", methods=["POST"])
 def ask():
     debug_log = []
@@ -60,6 +70,31 @@ def ask():
 
     append_to_memory(message, output)
     return jsonify({"response": output, "debug": debug_log})
+
+@app.route("/memory/add", methods=["POST"])
+def memory_add():
+    data = request.get_json(silent=True) or {}
+    user_msg = data.get("user")
+    jarvik_msg = data.get("jarvik")
+    if not user_msg or not jarvik_msg:
+        return jsonify({"error": "user and jarvik required"}), 400
+    append_to_memory(user_msg, jarvik_msg)
+    return jsonify({"status": "ok"})
+
+@app.route("/memory/search")
+def memory_search():
+    query = request.args.get("q", "")
+    memory_entries = load_memory()
+    if not query:
+        return jsonify(memory_entries[-5:])
+    return jsonify(search_memory(query, memory_entries))
+
+@app.route("/knowledge/search")
+def knowledge_search():
+    query = request.args.get("q", "")
+    if not query:
+        return jsonify([])
+    return jsonify(search_knowledge(query, knowledge_base))
 
 @app.route("/")
 def index():
