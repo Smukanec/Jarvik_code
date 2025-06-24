@@ -10,7 +10,14 @@ NC='\033[0m'
 if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if [ -n "$(git remote)" ]; then
     echo -e "${GREEN}🔄 Stahuji nejnovější verzi...${NC}"
-    if ! git pull; then
+    BEFORE_HASH="$(sha256sum "$0" | awk '{print $1}')"
+    if git pull; then
+      AFTER_HASH="$(sha256sum "$0" | awk '{print $1}')"
+      if [ "$BEFORE_HASH" != "$AFTER_HASH" ]; then
+        echo -e "${GREEN}🔁 Skript byl aktualizován, znovu jej spouštím...${NC}"
+        exec "$0" "$@"
+      fi
+    else
       echo -e "\033[1;33m⚠️  Nelze stáhnout nové soubory.\033[0m"
     fi
   else
@@ -25,9 +32,6 @@ bash uninstall_jarvik.sh
 if ! bash install_jarvik.sh; then
   echo -e "\033[1;33m⚠️  Instalace závislostí selhala, pokračuji...\033[0m"
 fi
-
-# Re-add shell aliases
-bash load.sh
 
 # Re-add shell aliases
 bash load.sh
