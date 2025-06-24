@@ -34,7 +34,8 @@ To launch all components run:
 bash start.sh
 ```
 
-With the aliases loaded you can simply type:
+The script checks for required commands and automatically downloads the
+`mistral` model if it is missing. With the aliases loaded you can simply type:
 
 ```bash
 jarvik-start

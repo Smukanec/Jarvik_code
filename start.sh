@@ -28,11 +28,23 @@ done
 if ! pgrep -f "ollama serve" > /dev/null; then
   echo -e "${GREEN}🚀 Spouštím Ollama...${NC}"
   nohup ollama serve > ollama.log 2>&1 &
-  sleep 2
+  # Počkej na zpřístupnění API
+  for i in {1..10}; do
+    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+      break
+    fi
+    sleep 1
+  done
+fi
+
+# Ověřit dostupnost modelu mistral a případně jej stáhnout
+if ! ollama list 2>/dev/null | grep -q '^mistral'; then
+  echo -e "${GREEN}⬇️  Stahuji model mistral...${NC}"
+  ollama pull mistral >> ollama.log 2>&1
 fi
 
 # Spustit mistral, pokud neběží
-if ! curl -s http://localhost:11434/api/tags | grep -q '"name": "mistral"'; then
+if ! pgrep -f "ollama run mistral" > /dev/null; then
   echo -e "${GREEN}🧠 Spouštím model mistral...${NC}"
   nohup ollama run mistral > mistral.log 2>&1 &
   sleep 2
