@@ -113,6 +113,18 @@ bash upgrade.sh  # nebo update.sh
 
 The script pulls the newest repository files, performs an uninstall, installs the dependencies again, reloads the shell aliases and starts all components.
 
+## API Usage
+
+Jarvik exposes a few HTTP endpoints on port `8010` that can be consumed by
+external applications such as ChatGPT:
+
+* `POST /ask` – ask Jarvik a question. The conversation is stored in memory.
+* `POST /memory/add` – manually append a `{ "user": "...", "jarvik": "..." }`
+  record to the memory log.
+* `GET /memory/search?q=term` – search stored memory entries. When no query is
+  provided, the last five entries are returned.
+* `GET /knowledge/search?q=term` – search the local knowledge base files.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
