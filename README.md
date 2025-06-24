@@ -61,8 +61,7 @@ The script expects the Mistral model to be running persistently via
 
 ## Stopping Jarvik and Uninstall
 
-Jarvik can be stopped and fully removed using the uninstall script from
-Issue 1:
+Jarvik can be stopped and fully removed using the uninstall script:
 
 ```bash
 bash uninstall_jarvik.sh
