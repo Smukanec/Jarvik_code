@@ -3,6 +3,9 @@ from rag_engine import load_knowledge, search_knowledge
 import json
 import os
 
+# Allow custom model via environment variable
+MODEL_NAME = os.getenv("MODEL_NAME", "mistral")
+
 # Set base directory relative to this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 memory_path = os.path.join(BASE_DIR, "memory", "public.jsonl")
@@ -57,11 +60,10 @@ def ask():
 
     try:
         import requests
-        response = requests.post("http://localhost:11434/api/generate", json={
-            "model": "mistral",
-            "prompt": prompt,
-            "stream": False
-        })
+        response = requests.post(
+            "http://localhost:11434/api/generate",
+            json={"model": MODEL_NAME, "prompt": prompt, "stream": False}
+        )
         result = response.json()
         output = result.get("response", "").strip()
     except Exception as e:

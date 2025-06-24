@@ -45,8 +45,9 @@ jarvik-start
 
 ### Running with a different model
 
-All management scripts honour the `MODEL_NAME` environment variable. To start
-Jarvik with another model set the variable when invoking the script:
+All management scripts honour the `MODEL_NAME` environment variable. The Flask
+API will query whichever model is specified. To start Jarvik with another model
+set the variable when invoking the script:
 
 ```bash
 MODEL_NAME=mistral bash start.sh  # run with a different model
@@ -65,8 +66,8 @@ or via the alias:
 ```bash
 jarvik-status
 ```
-The script expects the Mistral model to be running persistently via
-`ollama run mistral`.
+The script expects the selected model to be running persistently via
+`ollama run $MODEL_NAME`.
 
 ## Stopping Jarvik and Uninstall
 
