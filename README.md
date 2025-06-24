@@ -94,7 +94,7 @@ The script refreshes every two seconds and shows the last lines from
 To download the latest version, reinstall and start Jarvik automatically run:
 
 ```bash
-bash upgrade.sh
+bash upgrade.sh  # nebo update.sh
 ```
 
 The script pulls the newest repository files, performs an uninstall, installs the dependencies again, reloads the shell aliases and starts all components.

@@ -57,8 +57,8 @@ bash run_jarvik.sh
 
 ## Upgrade
 
-Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh`:
+Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh` (alias `update.sh`):
 ```bash
-bash upgrade.sh
+bash upgrade.sh  # nebo update.sh
 ```
 Skript stáhne nové soubory z repozitáře, provede odinstalování, znovu nainstaluje závislosti, obnoví aliasy v `~/.bashrc` a spustí Jarvika.
