@@ -29,6 +29,8 @@ fi
 # Aktivace venv a instalace požadavků
 echo "🐍 Instalace Python závislostí..."
 source venv/bin/activate
-pip install -r requirements.txt
+if ! pip install -r requirements.txt; then
+  echo -e "\033[1;33m⚠️  Instalace Python závislostí selhala. Zkontrolujte připojení k internetu.\033[0m"
+fi
 
 echo "✅ Instalace dokončena."
