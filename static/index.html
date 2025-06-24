@@ -50,7 +50,7 @@
       color: #00ff00;
       margin-top: 1em;
     }
-    #log, #status, #debug {
+    #log, #status, #debug, #activity {
       max-height: 300px;
       overflow-y: auto;
     }
@@ -61,6 +61,7 @@
 
   <textarea id="message" rows="4" placeholder="Zadej dotaz…"></textarea><br>
   <button onclick="ask()">Odeslat</button>
+  <pre id="activity"></pre>
 
   <pre id="response"></pre>
 
@@ -82,6 +83,7 @@
       const msg = document.getElementById("message").value.trim();
       if (!msg) return;
       document.getElementById("status").textContent = "⏳ Zpracovávám…";
+      document.getElementById("activity").textContent = "Čekám na odpověď…";
 
       const res = await fetch("/ask", {
         method: "POST",
@@ -98,6 +100,7 @@
 
       document.getElementById("message").value = "";
       document.getElementById("status").textContent = "🟢 Připraven.";
+      document.getElementById("activity").textContent = "";
     }
 
     document.getElementById("message").addEventListener("keydown", function (e) {
