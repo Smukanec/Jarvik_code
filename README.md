@@ -31,8 +31,8 @@ bash load.sh
 ```
 
 This will append alias commands such as `jarvik-start`, `jarvik-status`,
-`jarvik-model`, `jarvik-flask`, `jarvik-ollama` and `jarvik-start-7b` to your
-`~/.bashrc` and reload the file.
+`jarvik-model`, `jarvik-flask`, `jarvik-ollama`, `jarvik-start-7b` and
+`jarvik-start-q4` to your `~/.bashrc` and reload the file.
 
 ## Starting Jarvik
 
@@ -66,6 +66,15 @@ Alternatively you can run the dedicated wrapper script:
 bash start_Mistral_7B.sh
 # or using the alias
 jarvik-start-7b
+# (available after running `bash load.sh`)
+```
+
+Another helper script starts a pre-quantized Q4 model:
+
+```bash
+bash start_Jarvik_Q4.sh
+# or using the alias
+jarvik-start-q4
 # (available after running `bash load.sh`)
 ```
 
