@@ -88,8 +88,8 @@ bash start_jarvik_mistral.sh
 
 ## Upgrade
 
-Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh` (alias `update.sh`):
+Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh`:
 ```bash
-bash upgrade.sh  # nebo update.sh
+bash upgrade.sh
 ```
 Skript stáhne nové soubory z repozitáře, provede odinstalování, znovu nainstaluje závislosti, obnoví aliasy v `~/.bashrc` a spustí Jarvika.
