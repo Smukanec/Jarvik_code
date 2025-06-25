@@ -14,6 +14,13 @@ alias jarvik-install='bash $DIR/install_jarvik.sh'
 alias jarvik-flask='bash $DIR/start_flask.sh'
 alias jarvik-model='bash $DIR/start_model.sh'
 alias jarvik-ollama='bash $DIR/start_ollama.sh'
+alias jarvik-start-phi3='bash $DIR/start_phi3_mini.sh'
+alias jarvik-start-nh2='bash $DIR/start_nous_hermes2.sh'
+alias jarvik-start-llama3='bash $DIR/start_llama3_8b.sh'
+alias jarvik-start-command-r='bash $DIR/start_command_r.sh'
+alias jarvik-start-zephyr='bash $DIR/start_zephyr.sh'
+alias jarvik-start-coder='bash $DIR/start_deepseek_coder.sh'
+alias jarvik-start-gemma='bash $DIR/start_gemma_2b.sh'
 
 EOF
 fi
