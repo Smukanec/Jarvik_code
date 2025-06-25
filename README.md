@@ -148,6 +148,13 @@ jarvik-status
 The script expects the selected model to be running persistently via
 `ollama run $MODEL_NAME`.
 
+You can check multiple models at once by listing them as arguments or
+via the `MODEL_NAMES` environment variable:
+
+```bash
+MODEL_NAMES="mistral jarvik-q4" bash status.sh
+```
+
 ## Stopping Jarvik and Uninstall
 
 Jarvik can be stopped and fully removed using the uninstall script:
