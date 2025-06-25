@@ -54,18 +54,23 @@
       max-height: 300px;
       overflow-y: auto;
     }
+    #current-model-display {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
   </style>
 </head>
 <body>
   <img src="/static/alternativ.png" alt="Jarvik logo">
 
-  <p>Aktivní model: <span id="current-model">?</span></p>
+  <h2 id="current-model-display">Running model: <span id="current-model">?</span></h2>
   <select id="model-select">
-    <option value="mistral">mistral</option>
-    <option value="jarvik-q4">jarvik-q4</option>
-    <option value="mistral:7b-Q4_K_M">mistral:7b-Q4_K_M</option>
+    <option value="gemma:2b">Gemma 2B</option>
+    <option value="mistral:7b-Q4_K_M">Mistral 7B</option>
+    <option value="jarvik-q4">Jarvik Q4</option>
   </select>
-  <button onclick="switchModel()">Přepnout model</button>
+  <button onclick="switchModel()">Switch model</button>
   <pre id="model-status"></pre>
 
   <textarea id="message" rows="4" placeholder="Zadej dotaz…"></textarea><br>
@@ -89,10 +94,17 @@
   <pre id="duration"></pre>
 
   <script>
+    const MODEL_NAMES = {
+      'gemma:2b': 'Gemma 2B',
+      'mistral:7b-Q4_K_M': 'Mistral 7B',
+      'jarvik-q4': 'Jarvik Q4'
+    };
+
     async function loadModel() {
       const res = await fetch('/model');
       const data = await res.json();
-      document.getElementById('current-model').textContent = data.model;
+      const name = MODEL_NAMES[data.model] || data.model;
+      document.getElementById('current-model').textContent = name;
       const sel = document.getElementById('model-select');
       if (sel) sel.value = data.model;
     }
@@ -106,9 +118,13 @@
         body: JSON.stringify({ model })
       });
       document.getElementById('model-status').textContent = '🔄 Restartuji, chvíli strpení...';
+      const name = MODEL_NAMES[model] || model;
+      document.getElementById('current-model').textContent = name;
     }
 
     loadModel();
+    const select = document.getElementById('model-select');
+    if (select) select.addEventListener('change', switchModel);
 
     let conversationLog = "";
 
