@@ -37,6 +37,6 @@ fi
 bash load.sh
 
 # Start automatically
-bash start.sh
+bash start_jarvik_mistral.sh
 
 echo -e "${GREEN}✅ Upgrade dokončen.${NC}"
