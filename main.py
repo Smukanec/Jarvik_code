@@ -1,7 +1,14 @@
 from flask import Flask, request, jsonify
-from rag_engine import load_knowledge, search_knowledge
+from rag_engine import (
+    load_knowledge,
+    search_knowledge,
+    load_txt_file,
+    load_pdf_file,
+    load_docx_file,
+)
 import json
 import os
+import tempfile
 
 # Allow custom model via environment variable
 MODEL_NAME = os.getenv("MODEL_NAME", "mistral")
@@ -89,6 +96,68 @@ def ask():
     except Exception as e:
         debug_log.append(str(e))
         return jsonify({"error": "❌ Chyba při komunikaci s Ollamou", "debug": debug_log}), 500
+
+    append_to_memory(message, output)
+    return jsonify({"response": output, "debug": debug_log})
+
+
+@app.route("/ask_file", methods=["POST"])
+def ask_file():
+    debug_log = []
+    message = request.form.get("message", "")
+
+    uploaded = request.files.get("file")
+    file_text = ""
+    if uploaded and uploaded.filename:
+        ext = os.path.splitext(uploaded.filename)[1].lower()
+        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
+            uploaded.save(tmp.name)
+            tmp_path = tmp.name
+        try:
+            if ext == ".txt":
+                file_text = load_txt_file(tmp_path)
+            elif ext == ".pdf":
+                file_text = load_pdf_file(tmp_path)
+            elif ext == ".docx":
+                file_text = load_docx_file(tmp_path)
+            else:
+                debug_log.append(f"Nepodporovaný typ souboru: {uploaded.filename}")
+        except Exception as e:
+            debug_log.append(f"Chyba při čtení souboru: {e}")
+        finally:
+            os.unlink(tmp_path)
+
+    memory_context = load_memory()
+    debug_log.append(f"🧠 Paměť: {len(memory_context)} záznamů")
+
+    rag_context = search_knowledge(message, knowledge_base)
+    if file_text:
+        rag_context = [file_text] + rag_context
+    debug_log.append(f"📚 Kontext z RAG: {len(rag_context)} výsledků")
+
+    prompt = f"Uživatel: {message}\n"
+    if rag_context:
+        prompt += "\n".join([f"Znalost: {chunk}" for chunk in rag_context])
+    if memory_context:
+        prompt += "\n" + "\n".join([
+            f"Minulý dotaz: {m['user']} -> {m['jarvik']}" for m in memory_context[-5:]
+        ])
+
+    try:
+        import requests
+        response = requests.post(
+            "http://localhost:11434/api/generate",
+            json={"model": MODEL_NAME, "prompt": prompt, "stream": False},
+        )
+        response.raise_for_status()
+        result = response.json()
+        output = result.get("response", "").strip()
+    except Exception as e:
+        debug_log.append(str(e))
+        return (
+            jsonify({"error": "❌ Chyba při komunikaci s Ollamou", "debug": debug_log}),
+            500,
+        )
 
     append_to_memory(message, output)
     return jsonify({"response": output, "debug": debug_log})

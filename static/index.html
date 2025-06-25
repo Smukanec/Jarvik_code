@@ -60,6 +60,7 @@
   <img src="/static/alternativ.png" alt="Jarvik logo">
 
   <textarea id="message" rows="4" placeholder="Zadej dotaz…"></textarea><br>
+  <input type="file" id="file" accept=".txt,.pdf,.docx"><br>
   <button onclick="ask()">Odeslat</button>
   <pre id="activity"></pre>
 
@@ -81,14 +82,21 @@
 
     async function ask() {
       const msg = document.getElementById("message").value.trim();
-      if (!msg) return;
+      const fileInput = document.getElementById("file");
+      const file = fileInput.files[0];
+      if (!msg && !file) return;
       document.getElementById("status").textContent = "⏳ Zpracovávám…";
       document.getElementById("activity").textContent = "Čekám na odpověď…";
 
-      const res = await fetch("/ask", {
+      const formData = new FormData();
+      formData.append("message", msg);
+      if (file) {
+        formData.append("file", file);
+      }
+
+      const res = await fetch("/ask_file", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg })
+        body: formData
       });
 
       const data = await res.json();
@@ -100,6 +108,7 @@
       document.getElementById("log").textContent = conversationLog;
 
       document.getElementById("message").value = "";
+      fileInput.value = "";
       document.getElementById("status").textContent = "🟢 Připraven.";
       document.getElementById("activity").textContent = "";
     }
