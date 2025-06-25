@@ -23,7 +23,7 @@ if [[ -z "$VIRTUAL_ENV" ]]; then
 fi
 
 # Kontrola potřebných příkazů
-for cmd in ollama python3 curl; do
+for cmd in ollama python3 curl lsof; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
     echo -e "${RED}❌ Chybí příkaz $cmd. Nainstalujte jej a spusťte znovu.${NC}"
     exit 1

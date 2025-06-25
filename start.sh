@@ -29,6 +29,12 @@ for cmd in ollama python3 curl; do
   fi
 done
 
+# Potřebujeme také 'ss' nebo 'nc' pro kontrolu běžících portů
+if ! command -v ss >/dev/null 2>&1 && ! command -v nc >/dev/null 2>&1; then
+  echo -e "${RED}❌ Chybí příkazy 'ss' i 'nc'. Nainstalujte balíček iproute2 nebo netcat.${NC}"
+  exit 1
+fi
+
 # Spustit Ollama, pokud neběží
 if ! pgrep -f "ollama serve" > /dev/null; then
   echo -e "${GREEN}🚀 Spouštím Ollama...${NC}"

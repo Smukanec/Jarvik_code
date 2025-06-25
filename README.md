@@ -10,6 +10,9 @@ Install dependencies and create the virtual environment:
 bash install_jarvik.sh
 ```
 
+Make sure the commands `ollama`, `curl`, `lsof` and either `ss` (from
+`iproute2`) or `nc` (from `netcat`) are available on your system.
+
 If you need a fresh start, run the installer with `--clean` to first remove
 any previous environment:
 
