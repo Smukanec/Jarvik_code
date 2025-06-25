@@ -60,11 +60,12 @@
   <img src="/static/alternativ.png" alt="Jarvik logo">
 
   <textarea id="message" rows="4" placeholder="Zadej dotaz…"></textarea><br>
-  <input type="file" id="file" accept=".txt"><br>
+  <input type="file" id="file" accept=".txt,.pdf,.docx"><br>
   <button onclick="ask()">Odeslat</button>
   <pre id="activity"></pre>
 
   <pre id="response"></pre>
+  <a id="download" style="display:none" href="#">⬇️ Stáhnout odpověď</a>
 
   <details open>
     <summary>🕘 Historie</summary>
@@ -104,15 +105,36 @@
         body: formData
       });
 
-      const data = await res.json();
+      const contentType = res.headers.get("Content-Type") || "";
       const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
       const timestamp = new Date().toLocaleTimeString();
 
-      document.getElementById("response").textContent = data.response || "❌ Chyba odpovědi";
-      document.getElementById("debug").textContent = data.debug ? data.debug.join("\n") : "(žádný debug)";
-      conversationLog += `[${timestamp}] 👤 ${msg}\n[${timestamp}] 🤖 ${data.response}\n\n`;
+      if (contentType.includes("application/json")) {
+        const data = await res.json();
+        document.getElementById("response").textContent = data.response || "❌ Chyba odpovědi";
+        document.getElementById("debug").textContent = data.debug ? data.debug.join("\n") : "(žádný debug)";
+        conversationLog += `[${timestamp}] 👤 ${msg}\n[${timestamp}] 🤖 ${data.response}\n\n`;
+        document.getElementById("download").style.display = "none";
+      } else {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const answer = res.headers.get("X-Answer") || "";
+        const debug = res.headers.get("X-Debug");
+        const debugData = debug ? JSON.parse(debug) : [];
+        document.getElementById("response").textContent = answer || "❌ Chyba odpovědi";
+        document.getElementById("debug").textContent = debugData.length ? debugData.join("\n") : "(žádný debug)";
+        conversationLog += `[${timestamp}] 👤 ${msg}\n[${timestamp}] 🤖 ${answer}\n\n`;
+        const disposition = res.headers.get("Content-Disposition") || "";
+        let filename = "response";
+        const m = disposition.match(/filename="?([^";]+)"?/);
+        if (m) filename = m[1];
+        const link = document.getElementById("download");
+        link.href = url;
+        link.download = filename;
+        link.textContent = `⬇️ ${filename}`;
+        link.style.display = "inline";
+      }
       document.getElementById("log").textContent = conversationLog;
-
       document.getElementById("duration").textContent = `⏱ ${elapsed} s`;
 
       document.getElementById("message").value = "";

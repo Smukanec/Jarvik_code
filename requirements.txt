@@ -3,4 +3,5 @@ requests
 # Optional extras for PDF/DOCX knowledge base support
 PyPDF2
 python-docx
+fpdf
 
