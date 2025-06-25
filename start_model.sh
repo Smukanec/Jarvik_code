@@ -41,11 +41,11 @@ if ! ollama list 2>/dev/null | grep -q "^$MODEL_NAME"; then
 fi
 
 # Start the model
-if ! pgrep -f "ollama run $MODEL_NAME" > /dev/null; then
+if ! pgrep -f -x "ollama run $MODEL_NAME" > /dev/null; then
   echo -e "${GREEN}🧠 Spouštím model $MODEL_NAME...${NC}"
   nohup ollama run "$MODEL_NAME" > "$MODEL_LOG" 2>&1 &
   sleep 2
-  if ! pgrep -f "ollama run $MODEL_NAME" > /dev/null; then
+  if ! pgrep -f -x "ollama run $MODEL_NAME" > /dev/null; then
     echo -e "${RED}❌ Model $MODEL_NAME se nespustil, zkontrolujte $MODEL_LOG${NC}"
     exit 1
   fi
