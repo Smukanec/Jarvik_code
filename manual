@@ -116,6 +116,13 @@ jarvik-status
 ```
 Zobrazí se informace o běžících procesech a dostupnosti znalostních souborů.
 
+Pro kontrolu více modelů najednou je lze uvést jako argumenty nebo nastavit
+proměnnou `MODEL_NAMES`:
+
+```bash
+MODEL_NAMES="mistral jarvik-q4" bash status.sh
+```
+
 ## Ukončení a odinstalování
 
 Pro zastavení všech služeb a odstranění prostředí použijte:

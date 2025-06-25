@@ -4,8 +4,12 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 NC='\033[0m'
 
-# Default to the "mistral" model unless MODEL_NAME is set
-MODEL_NAME=${MODEL_NAME:-mistral}
+# Determine which model(s) to check
+if [ "$#" -gt 0 ]; then
+  MODEL_NAMES="$*"
+else
+  MODEL_NAMES="${MODEL_NAMES:-${MODEL_NAME:-mistral}}"
+fi
 
 echo "🔍 Kontrola systému JARVIK..."
 
@@ -16,21 +20,23 @@ else
   echo -e "❌ Ollama neběží"
 fi
 
-# Model process
-if pgrep -f -x "ollama run $MODEL_NAME" > /dev/null; then
-  echo -e "✅ Model $MODEL_NAME běží"
-else
-  echo -e "❌ Model $MODEL_NAME NEběží"
-  if command -v ollama >/dev/null 2>&1; then
-    # Pokud běží Ollama, ale proces modelu chybí, zkus ověřit port 11434
-    if ss -tuln 2>/dev/null | grep -q ":11434" || nc -z localhost 11434 >/dev/null 2>&1; then
-      echo "   Ollama běží, ale proces $MODEL_NAME nebyl nalezen."
-    fi
-    echo "   Spusťte jej příkazem 'ollama run $MODEL_NAME &' nebo 'jarvik-start'."
+# Model process for each requested model
+for MODEL_NAME in $MODEL_NAMES; do
+  if pgrep -f -x "ollama run $MODEL_NAME" > /dev/null; then
+    echo -e "✅ Model $MODEL_NAME běží"
   else
-    echo "   Chybí program 'ollama'."
+    echo -e "❌ Model $MODEL_NAME NEběží"
+    if command -v ollama >/dev/null 2>&1; then
+      # Pokud běží Ollama, ale proces modelu chybí, zkus ověřit port 11434
+      if ss -tuln 2>/dev/null | grep -q ":11434" || nc -z localhost 11434 >/dev/null 2>&1; then
+        echo "   Ollama běží, ale proces $MODEL_NAME nebyl nalezen."
+      fi
+      echo "   Spusťte jej příkazem 'ollama run $MODEL_NAME &' nebo 'jarvik-start'."
+    else
+      echo "   Chybí program 'ollama'."
+    fi
   fi
-fi
+done
 
 # Flask port 8010
 if command -v ss >/dev/null 2>&1; then
