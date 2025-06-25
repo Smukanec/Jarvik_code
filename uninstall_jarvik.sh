@@ -2,6 +2,7 @@
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR" || exit
 set -e
+# Default model name can be overridden via MODEL_NAME
 MODEL_NAME=${MODEL_NAME:-mistral}
 
 echo "🗑️ Odinstalace Jarvika..."

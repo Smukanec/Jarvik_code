@@ -2,6 +2,7 @@
 GREEN="\033[1;32m"
 RED="\033[1;31m"
 NC="\033[0m"
+# Default model name can be overridden via MODEL_NAME
 MODEL_NAME=${MODEL_NAME:-mistral}
 MODEL_LOG="${MODEL_NAME}.log"
 
