@@ -89,6 +89,8 @@
       document.getElementById("status").textContent = "⏳ Zpracovávám…";
       document.getElementById("activity").textContent = "Čekám na odpověď…";
       document.getElementById("duration").textContent = "";
+
+      // measure the time it takes to get a response
       const startTime = performance.now();
 
       const formData = new FormData();
@@ -115,7 +117,7 @@
 
       document.getElementById("message").value = "";
       fileInput.value = "";
-      document.getElementById("status").textContent = "🟢 Připraven.";
+      document.getElementById("status").textContent = `🟢 Připraven za ${elapsed} s.`;
       document.getElementById("activity").textContent = "";
     }
 
