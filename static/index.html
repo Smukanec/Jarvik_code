@@ -59,6 +59,15 @@
 <body>
   <img src="/static/alternativ.png" alt="Jarvik logo">
 
+  <p>Aktivní model: <span id="current-model">?</span></p>
+  <select id="model-select">
+    <option value="mistral">mistral</option>
+    <option value="jarvik-q4">jarvik-q4</option>
+    <option value="mistral:7b-Q4_K_M">mistral:7b-Q4_K_M</option>
+  </select>
+  <button onclick="switchModel()">Přepnout model</button>
+  <pre id="model-status"></pre>
+
   <textarea id="message" rows="4" placeholder="Zadej dotaz…"></textarea><br>
   <input type="file" id="file" accept=".txt,.pdf,.docx"><br>
   <button onclick="ask()">Odeslat</button>
@@ -80,6 +89,27 @@
   <pre id="duration"></pre>
 
   <script>
+    async function loadModel() {
+      const res = await fetch('/model');
+      const data = await res.json();
+      document.getElementById('current-model').textContent = data.model;
+      const sel = document.getElementById('model-select');
+      if (sel) sel.value = data.model;
+    }
+
+    async function switchModel() {
+      const model = document.getElementById('model-select').value;
+      document.getElementById('model-status').textContent = '⏳ Restartuji...';
+      await fetch('/model', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model })
+      });
+      document.getElementById('model-status').textContent = '🔄 Restartuji, chvíli strpení...';
+    }
+
+    loadModel();
+
     let conversationLog = "";
 
     async function ask() {

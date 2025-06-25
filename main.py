@@ -9,6 +9,7 @@ from rag_engine import (
 import json
 import os
 import tempfile
+import subprocess
 
 # Allow custom model via environment variable
 MODEL_NAME = os.getenv("MODEL_NAME", "mistral")
@@ -229,6 +230,33 @@ def knowledge_search():
     if not query:
         return jsonify([])
     return jsonify(search_knowledge(query, knowledge_base))
+
+
+@app.route("/model", methods=["GET", "POST"])
+def model_route():
+    """Get or switch the active model."""
+    if request.method == "GET":
+        return jsonify({"model": MODEL_NAME})
+
+    data = request.get_json(silent=True) or {}
+    new_model = data.get("model")
+    if not new_model:
+        return jsonify({"error": "model required"}), 400
+
+    script = os.path.join(BASE_DIR, "switch_model.sh")
+    try:
+        subprocess.Popen(["bash", script, new_model])
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    @after_this_request
+    def shutdown(resp):
+        func = request.environ.get("werkzeug.server.shutdown")
+        if func:
+            func()
+        return resp
+
+    return jsonify({"status": "restarting", "model": new_model})
 
 @app.route("/")
 def index():
