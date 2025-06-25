@@ -53,6 +53,18 @@ který ukončí běžící model i Flask. Přepnutí na jiný model je tak otáz
 jednoho příkazu.
 Stejnou hodnotu používá i samotná Flask aplikace.
 
+### Přepnutí modelu za běhu
+
+Jarvika lze přepnout na jiný model bez ručního zastavení všech služeb.
+Stačí spustit skript `switch_model.sh` s názvem požadovaného modelu:
+
+```bash
+bash switch_model.sh mistral:7b-Q4_K_M
+```
+
+Případně je možné odeslat HTTP POST požadavek na `/model` s JSON
+`{"model": "jméno"}`. Aplikace se restartuje s novým modelem.
+
 ### Offline použití
 
 Pokud nemáte k dispozici internetové připojení, stáhněte si nejprve soubor s

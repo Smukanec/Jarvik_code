@@ -18,4 +18,4 @@ pkill -f "ollama run" 2>/dev/null
 pkill -f "ollama serve" 2>/dev/null
 sleep 2
 
-MODEL_NAME="$NEW_MODEL" bash "$DIR/start_jarvik_mistral.sh"
+MODEL_NAME="$NEW_MODEL" bash "$DIR/start_jarvik.sh"
