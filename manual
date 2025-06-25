@@ -20,8 +20,9 @@ Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`
    ```bash
    bash load.sh
    ```
-    Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`,
-    `jarvik-model`, `jarvik-flask`, `jarvik-ollama` a `jarvik-start-7b`.
+   Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`,
+    `jarvik-model`, `jarvik-flask`, `jarvik-ollama`, `jarvik-start-7b`,
+    `jarvik-start-q4` a `jarvik-start-gemma`.
 
 ## Spuštění
 
@@ -48,7 +49,30 @@ bash start_Mistral_7B.sh
 jarvik-start-7b
 # (k dispozici po spuštění `bash load.sh`)
 ```
+Další skript spouští kvantovanou verzi Jarvik Q4:
+
+```bash
+bash start_Jarvik_Q4.sh
+# nebo
+jarvik-start-q4
+```
+
+A nově je k dispozici i model Gemma 2B:
+
+```bash
+bash start_Gemma_2B.sh
+# nebo
+jarvik-start-gemma
+```
 Stejnou hodnotu používá i samotná Flask aplikace.
+
+Všechny tyto skripty nyní před spuštěním zavolají `stop_all.sh`, takže přepnutí
+na jiný model nejprve automaticky ukončí běžící Jarvik. Kdykoli můžete také
+služby ukončit ručně příkazem:
+
+```bash
+bash stop_all.sh
+```
 
 ### Offline použití
 

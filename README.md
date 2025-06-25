@@ -33,8 +33,8 @@ bash load.sh
 ```
 
 This will append alias commands such as `jarvik-start`, `jarvik-status`,
-`jarvik-model`, `jarvik-flask`, `jarvik-ollama`, `jarvik-start-7b` and
-`jarvik-start-q4` to your `~/.bashrc` and reload the file.
+`jarvik-model`, `jarvik-flask`, `jarvik-ollama`, `jarvik-start-7b`,
+`jarvik-start-q4` and `jarvik-start-gemma` to your `~/.bashrc` and reload the file.
 
 PDF and DOCX knowledge base files are supported when the optional packages
 `PyPDF2` and `python-docx` are installed. These are listed as extras in
@@ -94,6 +94,19 @@ bash start_Jarvik_Q4.sh
 jarvik-start-q4
 # (available after running `bash load.sh`)
 ```
+
+To try the Gemma 2B model use:
+
+```bash
+bash start_Gemma_2B.sh
+# or using the alias
+jarvik-start-gemma
+# (available after running `bash load.sh`)
+```
+
+All these wrapper scripts invoke `stop_all.sh` first, so switching models
+automatically terminates any previously running instance. You can also run
+`bash stop_all.sh` manually to stop Jarvik.
 
 ### Offline usage
 
