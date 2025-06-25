@@ -8,6 +8,7 @@ NC='\033[0m'
 if [ "$#" -gt 0 ]; then
   MODEL_NAMES="$*"
 else
+  # Gemma 2B is used when MODEL_NAME is unset
   MODEL_NAMES="${MODEL_NAMES:-${MODEL_NAME:-gemma:2b}}"
 fi
 

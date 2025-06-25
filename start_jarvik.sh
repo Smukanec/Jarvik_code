@@ -5,7 +5,7 @@ NC="\033[0m"
 
 cd "$(dirname "$0")" || exit
 
-# Model name can be overridden with the MODEL_NAME environment variable
+# Model name (Gemma 2B by default) can be overridden with MODEL_NAME
 MODEL_NAME=${MODEL_NAME:-"gemma:2b"}
 # Log file for the model output
 MODEL_LOG="${MODEL_NAME}.log"

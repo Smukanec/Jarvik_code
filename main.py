@@ -11,7 +11,7 @@ import os
 import tempfile
 import subprocess
 
-# Allow custom model via environment variable
+# Allow custom model via environment variable (default Gemma 2B)
 MODEL_NAME = os.getenv("MODEL_NAME", "gemma:2b")
 # Allow choosing the Flask port via environment variable
 FLASK_PORT = int(os.getenv("FLASK_PORT", 8010))

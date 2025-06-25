@@ -9,7 +9,7 @@ else
   echo -e "${RED}⚠️  Příkazy 'ss' ani 'nc' nebyly nalezeny. Kontrola portu Flask bude přeskočena.${NC}"
   PORT_CHECK_AVAILABLE=false
 fi
-# Default model name can be overridden via MODEL_NAME
+# Default model name (Gemma 2B) can be overridden via MODEL_NAME
 MODEL_NAME=${MODEL_NAME:-"gemma:2b"}
 MODEL_LOG="${MODEL_NAME}.log"
 

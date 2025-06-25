@@ -25,9 +25,9 @@ Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`
 
 ## Spuštění
 
-Jarvika spustíte buď přímo pomocí skriptu `start_jarvik.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
+# Jarvika spustíte buď přímo pomocí skriptu `start_jarvik.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
 ```bash
-bash start_Gemma_2B.sh
+bash start_jarvik.sh
 # nebo
 jarvik-start
 ```

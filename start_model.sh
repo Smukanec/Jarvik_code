@@ -5,7 +5,7 @@ NC='\033[0m'
 
 cd "$(dirname "$0")" || exit
 
-# Default model name can be overridden via MODEL_NAME
+# Default model name (Gemma 2B) can be overridden via MODEL_NAME
 MODEL_NAME=${MODEL_NAME:-"gemma:2b"}
 MODEL_LOG="${MODEL_NAME}.log"
 # Optional local .gguf file to register as MODEL_NAME when not present

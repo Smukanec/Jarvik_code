@@ -82,7 +82,7 @@ Alternatively you can run the dedicated wrapper scripts:
 
 ```bash
 # Default model
-bash start_Gemma_2B.sh
+bash start_jarvik.sh
 # or using the alias
 jarvik-start
 
