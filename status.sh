@@ -17,7 +17,7 @@ else
 fi
 
 # Model process
-if pgrep -f "ollama run $MODEL_NAME" > /dev/null; then
+if pgrep -f -x "ollama run $MODEL_NAME" > /dev/null; then
   echo -e "✅ Model $MODEL_NAME běží"
 else
   echo -e "❌ Model $MODEL_NAME NEběží"

@@ -31,7 +31,7 @@ check_ollama() {
 }
 
 check_mistral() {
-  if ! pgrep -f "ollama run $MODEL_NAME" > /dev/null; then
+  if ! pgrep -f -x "ollama run $MODEL_NAME" > /dev/null; then
     echo -e "${RED}⚠️  Model $MODEL_NAME neběží. Restartuji...${NC}"
     nohup ollama run "$MODEL_NAME" >> "$MODEL_LOG" 2>&1 &
   fi
