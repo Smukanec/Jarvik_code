@@ -13,6 +13,11 @@ memory_path = os.path.join(BASE_DIR, "memory", "public.jsonl")
 os.makedirs(os.path.dirname(memory_path), exist_ok=True)
 open(memory_path, "a", encoding="utf-8").close()
 
+# Maximum number of lines to keep in the memory file. Set to 0 for unlimited.
+MAX_MEMORY_ENTRIES = int(os.getenv("MAX_MEMORY_ENTRIES", 0))
+if MAX_MEMORY_ENTRIES <= 0:
+    MAX_MEMORY_ENTRIES = None
+
 app = Flask(__name__)
 
 # Načti znalosti při startu
@@ -20,14 +25,28 @@ knowledge_base = load_knowledge(os.path.join(BASE_DIR, "knowledge"))
 print("✅ Znalosti načteny.")
 
 def load_memory():
+    """Load the conversation memory limited to the most recent entries."""
     if os.path.exists(memory_path):
         with open(memory_path, "r", encoding="utf-8") as f:
-            return [json.loads(line) for line in f if line.strip()]
+            lines = f.readlines()
+            if MAX_MEMORY_ENTRIES:
+                lines = lines[-MAX_MEMORY_ENTRIES:]
+            return [json.loads(line) for line in lines if line.strip()]
     return []
 
 def append_to_memory(user_msg, ai_response):
+    """Append a new exchange to memory and truncate the file if necessary."""
     with open(memory_path, "a", encoding="utf-8") as f:
         f.write(json.dumps({"user": user_msg, "jarvik": ai_response}) + "\n")
+
+    # Truncate file to the most recent MAX_MEMORY_ENTRIES lines
+    if MAX_MEMORY_ENTRIES:
+        with open(memory_path, "r+", encoding="utf-8") as f:
+            lines = f.readlines()
+            if len(lines) > MAX_MEMORY_ENTRIES:
+                f.seek(0)
+                f.writelines(lines[-MAX_MEMORY_ENTRIES:])
+                f.truncate()
 
 def search_memory(query, memory_entries):
     results = []

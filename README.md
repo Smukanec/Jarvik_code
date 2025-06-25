@@ -3,6 +3,8 @@
 This repository contains scripts to run the Jarvik assistant locally. By default
 all helper scripts use the `mistral` model from Ollama, but you can override the
 model by setting the `MODEL_NAME` environment variable.
+Jarvik keeps the entire conversation history unless you set the
+`MAX_MEMORY_ENTRIES` environment variable to limit how many exchanges are stored.
 
 ## Installation
 
