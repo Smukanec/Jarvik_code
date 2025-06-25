@@ -19,8 +19,8 @@ Ve výchozím nastavení používají skripty model `mistral`. Pokud chcete pou�
    ```bash
    bash load.sh
    ```
-   Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`,
-   `jarvik-model`, `jarvik-flask` a `jarvik-ollama`.
+    Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`,
+    `jarvik-model`, `jarvik-flask`, `jarvik-ollama` a `jarvik-start-7b`.
 
 ## Spuštění
 
@@ -44,6 +44,7 @@ nebo použijte připravený skript pro Mistral 7B:
 bash start_Mistral_7B.sh
 # nebo
 jarvik-start-7b
+# (k dispozici po spuštění `bash load.sh`)
 ```
 Stejnou hodnotu používá i samotná Flask aplikace.
 
