@@ -8,7 +8,17 @@ NC='\033[0m'
 if [ "$#" -gt 0 ]; then
   MODEL_NAMES="$*"
 else
-  MODEL_NAMES="${MODEL_NAMES:-${MODEL_NAME:-gemma:2b}}"
+  if [ -z "$MODEL_NAMES" ] && [ -z "$MODEL_NAME" ]; then
+    DETECTED_MODEL=$(pgrep -fa "ollama run" | head -n1 | awk '{for(i=1;i<=NF;i++){if($i=="run"){print $(i+1); exit}}}')
+    if [ -n "$DETECTED_MODEL" ]; then
+      MODEL_NAMES="$DETECTED_MODEL"
+      echo "Active model: $DETECTED_MODEL"
+    else
+      MODEL_NAMES="gemma:2b"
+    fi
+  else
+    MODEL_NAMES="${MODEL_NAMES:-${MODEL_NAME}}"
+  fi
 fi
 
 echo "🔍 Kontrola systému JARVIK..."
