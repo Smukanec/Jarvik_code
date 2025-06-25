@@ -36,6 +36,10 @@ This will append alias commands such as `jarvik-start`, `jarvik-status`,
 `jarvik-model`, `jarvik-flask`, `jarvik-ollama`, `jarvik-start-7b` and
 `jarvik-start-q4` to your `~/.bashrc` and reload the file.
 
+PDF and DOCX knowledge base files are supported when the optional packages
+`PyPDF2` and `python-docx` are installed. These are listed as extras in
+`requirements.txt`.
+
 ## Starting Jarvik
 
 To launch all components run:

@@ -1,6 +1,4 @@
 import os
-import PyPDF2
-import docx
 import glob
 
 def load_txt_file(path):
@@ -8,6 +6,11 @@ def load_txt_file(path):
         return f.read()
 
 def load_pdf_file(path):
+    try:
+        import PyPDF2
+    except ImportError:
+        raise ImportError("PyPDF2 is required to load PDF files")
+
     text = ""
     with open(path, "rb") as f:
         reader = PyPDF2.PdfReader(f)
@@ -16,6 +19,11 @@ def load_pdf_file(path):
     return text
 
 def load_docx_file(path):
+    try:
+        import docx
+    except ImportError:
+        raise ImportError("python-docx is required to load DOCX files")
+
     doc = docx.Document(path)
     return "\n".join([p.text for p in doc.paragraphs])
 
