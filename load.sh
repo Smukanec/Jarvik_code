@@ -12,6 +12,7 @@ alias jarvik-status='bash $DIR/status.sh'
 alias jarvik-install='bash $DIR/install_jarvik.sh'
 alias jarvik-flask='source $DIR/venv/bin/activate && python $DIR/main.py'
 alias jarvik-model='bash $DIR/start_model.sh'
+alias jarvik-ollama='bash $DIR/start_ollama.sh'
 
 EOF
 fi

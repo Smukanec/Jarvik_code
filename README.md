@@ -29,7 +29,7 @@ bash load.sh
 ```
 
 This will append alias commands such as `jarvik-start`, `jarvik-status`,
-`jarvik-model` and `jarvik-flask` to your `~/.bashrc` and reload the file.
+`jarvik-model`, `jarvik-flask` and `jarvik-ollama` to your `~/.bashrc` and reload the file.
 
 ## Starting Jarvik
 
@@ -63,6 +63,20 @@ Alternatively you can run the dedicated wrapper script:
 bash start_Mistral_7B.sh
 # or using the alias
 jarvik-start-7b
+```
+
+### Starting only Ollama
+
+When you want just the Ollama service without loading a model, run:
+
+```bash
+bash start_ollama.sh
+```
+
+With aliases loaded this is simply:
+
+```bash
+jarvik-ollama
 ```
 
 ### Starting only the model

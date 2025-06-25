@@ -20,7 +20,7 @@ Ve výchozím nastavení používají skripty model `mistral`. Pokud chcete pou�
    bash load.sh
    ```
    Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`,
-   `jarvik-model` a `jarvik-flask`.
+   `jarvik-model`, `jarvik-flask` a `jarvik-ollama`.
 
 ## Spuštění
 
@@ -46,6 +46,20 @@ bash start_Mistral_7B.sh
 jarvik-start-7b
 ```
 Stejnou hodnotu používá i samotná Flask aplikace.
+
+### Spuštění pouze Ollamy
+
+Pokud potřebujete spustit jen službu Ollama bez načtení modelu, použijte:
+
+```bash
+bash start_ollama.sh
+```
+
+Po načtení aliasů stačí příkaz:
+
+```bash
+jarvik-ollama
+```
 
 ### Spuštění pouze modelu
 
