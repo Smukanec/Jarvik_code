@@ -93,6 +93,10 @@ jarvik-start-7b
 # (available after running `bash load.sh`)
 ```
 
+Switching models is seamless because each wrapper calls `stop_all.sh` before
+starting the selected model. Any running model or Flask instance is
+terminated automatically.
+
 Another helper script starts a pre-quantized Q4 model:
 
 ```bash
@@ -189,6 +193,12 @@ bash uninstall_jarvik.sh
 
 The script stops Ollama, the model and Flask, removes the `venv/` and
 `memory/` directories and cleans the Jarvik aliases from `~/.bashrc`.
+
+To merely stop the running services without removing anything, execute:
+
+```bash
+bash stop_all.sh
+```
 
 ## Quick Start Script
 

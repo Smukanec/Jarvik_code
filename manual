@@ -48,6 +48,9 @@ bash start_Mistral_7B.sh
 jarvik-start-7b
 # (k dispozici po spuštění `bash load.sh`)
 ```
+Každý z těchto skriptů nejprve spustí `stop_all.sh`,
+který ukončí běžící model i Flask. Přepnutí na jiný model je tak otázkou
+jednoho příkazu.
 Stejnou hodnotu používá i samotná Flask aplikace.
 
 ### Offline použití
@@ -132,6 +135,12 @@ Pro zastavení všech služeb a odstranění prostředí použijte:
 bash uninstall_jarvik.sh
 ```
 Skript ukončí Ollamu, spuštěný model i Flask, smaže adresáře `venv/` a `memory/` a vyčistí aliasy z `~/.bashrc`.
+
+Pokud chcete pouze zastavit běžící model a Flask bez mazání souborů, spusťte
+
+```bash
+bash stop_all.sh
+```
 
 ## Rychlý start
 
