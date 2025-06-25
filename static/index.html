@@ -76,6 +76,7 @@
 
   <h3>📊 Stav</h3>
   <pre id="status">🟢 Připraven.</pre>
+  <pre id="duration"></pre>
 
   <script>
     let conversationLog = "";
@@ -87,6 +88,8 @@
       if (!msg && !file) return;
       document.getElementById("status").textContent = "⏳ Zpracovávám…";
       document.getElementById("activity").textContent = "Čekám na odpověď…";
+      document.getElementById("duration").textContent = "";
+      const startTime = performance.now();
 
       const formData = new FormData();
       formData.append("message", msg);
@@ -100,12 +103,15 @@
       });
 
       const data = await res.json();
+      const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
       const timestamp = new Date().toLocaleTimeString();
 
       document.getElementById("response").textContent = data.response || "❌ Chyba odpovědi";
       document.getElementById("debug").textContent = data.debug ? data.debug.join("\n") : "(žádný debug)";
       conversationLog += `[${timestamp}] 👤 ${msg}\n[${timestamp}] 🤖 ${data.response}\n\n`;
       document.getElementById("log").textContent = conversationLog;
+
+      document.getElementById("duration").textContent = `⏱ ${elapsed} s`;
 
       document.getElementById("message").value = "";
       fileInput.value = "";
