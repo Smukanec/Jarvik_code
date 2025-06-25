@@ -10,7 +10,7 @@ else
   PORT_CHECK_AVAILABLE=false
 fi
 # Default model name can be overridden via MODEL_NAME
-MODEL_NAME=${MODEL_NAME:-mistral}
+MODEL_NAME=${MODEL_NAME:-"gemma:2b"}
 MODEL_LOG="${MODEL_NAME}.log"
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -30,7 +30,7 @@ check_ollama() {
   fi
 }
 
-check_mistral() {
+check_model() {
   if ! pgrep -f -x "ollama run $MODEL_NAME" > /dev/null; then
     echo -e "${RED}⚠️  Model $MODEL_NAME neběží. Restartuji...${NC}"
     nohup ollama run "$MODEL_NAME" >> "$MODEL_LOG" 2>&1 &
@@ -49,7 +49,7 @@ check_flask() {
 
 while true; do
   check_ollama
-  check_mistral
+  check_model
   check_flask
   sleep 5
 done

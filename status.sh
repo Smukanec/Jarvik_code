@@ -8,7 +8,7 @@ NC='\033[0m'
 if [ "$#" -gt 0 ]; then
   MODEL_NAMES="$*"
 else
-  MODEL_NAMES="${MODEL_NAMES:-${MODEL_NAME:-mistral}}"
+  MODEL_NAMES="${MODEL_NAMES:-${MODEL_NAME:-gemma:2b}}"
 fi
 
 echo "🔍 Kontrola systému JARVIK..."

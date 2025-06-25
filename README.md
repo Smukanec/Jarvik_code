@@ -1,8 +1,8 @@
 # Jarvik
 
 This repository contains scripts to run the Jarvik assistant locally. By default
-all helper scripts use the `mistral` model from Ollama, but you can override the
-model by setting the `MODEL_NAME` environment variable.
+all helper scripts use the `gemma:2b` model from Ollama, but you can override
+the model by setting the `MODEL_NAME` environment variable.
 Jarvik keeps the entire conversation history unless you set the
 `MAX_MEMORY_ENTRIES` environment variable to limit how many exchanges are stored.
 The Flask API listens on port `8010` by default, but you can override this using
@@ -34,7 +34,8 @@ bash load.sh
 
 This will append alias commands such as `jarvik-start`, `jarvik-status`,
 `jarvik-model`, `jarvik-flask`, `jarvik-ollama`, `jarvik-start-7b` and
-`jarvik-start-q4` to your `~/.bashrc` and reload the file.
+`jarvik-start-q4` to your `~/.bashrc` and reload the file. The `jarvik-start`
+alias launches the default Gemma 2B model.
 
 PDF and DOCX knowledge base files are supported when the optional packages
 `PyPDF2` and `python-docx` are installed. These are listed as extras in
@@ -56,11 +57,11 @@ After these changes Jarvik will only process TXT files and you may remove the
 To launch all components run:
 
 ```bash
-bash start_jarvik_mistral.sh
+bash start_jarvik.sh
 ```
 
 The script checks for required commands and automatically downloads the
-`mistral` model if it is missing. Po spuštění vypíše, zda se všechny části
+`gemma:2b` model if it is missing. Po spuštění vypíše, zda se všechny části
 správně nastartovaly, případné chyby hledejte v souborech `*.log`.
 With the aliases loaded you can simply type:
 
@@ -75,11 +76,17 @@ The Flask API will query whichever model is specified. To start Jarvik with any
 model simply set the variable when invoking the script. For example:
 
 ```bash
-MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik_mistral.sh
+MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik.sh
 ```
-Alternatively you can run the dedicated wrapper script:
+Alternatively you can run the dedicated wrapper scripts:
 
 ```bash
+# Default model
+bash start_Gemma_2B.sh
+# or using the alias
+jarvik-start
+
+# Mistral 7B model
 bash start_Mistral_7B.sh
 # or using the alias
 jarvik-start-7b
@@ -180,7 +187,7 @@ Jarvik can be stopped and fully removed using the uninstall script:
 bash uninstall_jarvik.sh
 ```
 
-The script stops Ollama, Mistral and Flask, removes the `venv/` and
+The script stops Ollama, the model and Flask, removes the `venv/` and
 `memory/` directories and cleans the Jarvik aliases from `~/.bashrc`.
 
 ## Quick Start Script
@@ -189,7 +196,7 @@ For a single command that activates the environment, loads the model and
 starts Flask you can also use the main start script:
 
 ```bash
-bash start_jarvik_mistral.sh
+bash start_jarvik.sh
 ```
 
 ## Real-time Monitoring
@@ -201,7 +208,7 @@ bash monitor.sh
 ```
 
 The script refreshes every two seconds and shows the last lines from
-`flask.log`, `<model>.log` and `ollama.log` produced by `start_jarvik_mistral.sh`.
+`flask.log`, `<model>.log` and `ollama.log` produced by `start_jarvik.sh`.
 
 ## Automatic Restart
 
@@ -212,7 +219,7 @@ restart missing processes automatically:
 bash watchdog.sh
 ```
 
-The watchdog checks every five seconds that Ollama, the Mistral model and
+The watchdog checks every five seconds that Ollama, the Gemma 2B model and
 the Flask server are up and restarts them when needed.
 
 ## Upgrade

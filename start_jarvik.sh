@@ -6,7 +6,7 @@ NC="\033[0m"
 cd "$(dirname "$0")" || exit
 
 # Model name can be overridden with the MODEL_NAME environment variable
-MODEL_NAME=${MODEL_NAME:-mistral}
+MODEL_NAME=${MODEL_NAME:-"gemma:2b"}
 # Log file for the model output
 MODEL_LOG="${MODEL_NAME}.log"
 # Optional LOCAL_MODEL_FILE can specify a .gguf file to register as this model

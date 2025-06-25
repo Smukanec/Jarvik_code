@@ -6,7 +6,7 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR" || exit
 
 # Default model name if not provided
-MODEL_NAME=${MODEL_NAME:-mistral}
+MODEL_NAME=${MODEL_NAME:-"gemma:2b"}
 MODEL_LOG="${MODEL_NAME}.log"
 
 while true; do
