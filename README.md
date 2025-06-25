@@ -36,7 +36,7 @@ This will append alias commands such as `jarvik-start`, `jarvik-status` and
 To launch all components run:
 
 ```bash
-bash start.sh
+bash start_jarvik_mistral.sh
 ```
 
 The script checks for required commands and automatically downloads the
@@ -55,7 +55,14 @@ The Flask API will query whichever model is specified. To start Jarvik with any
 model simply set the variable when invoking the script. For example:
 
 ```bash
-MODEL_NAME="mistral:7b-Q4_K_M" bash start.sh
+MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik_mistral.sh
+```
+Alternatively you can run the dedicated wrapper script:
+
+```bash
+bash start_Mistral_7B.sh
+# or using the alias
+jarvik-start-7b
 ```
 
 ### Starting only the model
@@ -102,10 +109,10 @@ The script stops Ollama, Mistral and Flask, removes the `venv/` and
 ## Quick Start Script
 
 For a single command that activates the environment, loads the model and
-starts Flask you can also use:
+starts Flask you can also use the main start script:
 
 ```bash
-bash run_jarvik.sh
+bash start_jarvik_mistral.sh
 ```
 
 ## Real-time Monitoring
@@ -117,7 +124,7 @@ bash monitor.sh
 ```
 
 The script refreshes every two seconds and shows the last lines from
-`flask.log`, `<model>.log` and `ollama.log` produced by `start.sh`.
+`flask.log`, `<model>.log` and `ollama.log` produced by `start_jarvik_mistral.sh`.
 
 ## Automatic Restart
 
