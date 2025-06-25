@@ -9,6 +9,7 @@ cd "$(dirname "$0")" || exit
 MODEL_NAME=${MODEL_NAME:-mistral}
 # Log file for the model output
 MODEL_LOG="${MODEL_NAME}.log"
+# Optional LOCAL_MODEL_FILE can specify a .gguf file to register as this model
 
 # Aktivovat venv, pokud ještě není aktivní
 if [ -z "$VIRTUAL_ENV" ]; then
@@ -54,10 +55,21 @@ fi
 
 # Ověřit dostupnost modelu $MODEL_NAME a případně jej stáhnout
 if ! ollama list 2>/dev/null | grep -q "^${MODEL_NAME}"; then
-  echo -e "${GREEN}⬇️  Stahuji model $MODEL_NAME...${NC}"
-  if ! ollama pull "$MODEL_NAME" >> ollama.log 2>&1; then
-    echo -e "${RED}❌ Stažení modelu selhalo, zkontrolujte připojení${NC}"
-    exit 1
+  CREATED=""
+  if [ -n "$LOCAL_MODEL_FILE" ] && [ -f "$LOCAL_MODEL_FILE" ] && [[ "$LOCAL_MODEL_FILE" == *.gguf ]]; then
+    TMP_MODFILE=$(mktemp)
+    echo "FROM $LOCAL_MODEL_FILE" > "$TMP_MODFILE"
+    if ollama create "$MODEL_NAME" -f "$TMP_MODFILE" >> ollama.log 2>&1; then
+      CREATED=1
+    fi
+    rm -f "$TMP_MODFILE"
+  fi
+  if [ -z "$CREATED" ]; then
+    echo -e "${GREEN}⬇️  Stahuji model $MODEL_NAME...${NC}"
+    if ! ollama pull "$MODEL_NAME" >> ollama.log 2>&1; then
+      echo -e "${RED}❌ Stažení modelu selhalo, zkontrolujte připojení${NC}"
+      exit 1
+    fi
   fi
 fi
 
