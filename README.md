@@ -1,6 +1,8 @@
 # Jarvik
 
-This repository contains scripts to run the Jarvik assistant locally.
+This repository contains scripts to run the Jarvik assistant locally. By default
+all helper scripts use the `mistral` model from Ollama, but you can override the
+model by setting the `MODEL_NAME` environment variable.
 
 ## Installation
 
