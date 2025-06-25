@@ -27,7 +27,7 @@ Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`
 
 Jarvika spustíte buď přímo pomocí skriptu `start_jarvik.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
 ```bash
-bash start_Gemma_2B.sh
+bash start_gemma_2b.sh
 # nebo
 jarvik-start
 ```
@@ -43,7 +43,7 @@ MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik.sh
 nebo použijte připravený skript pro Mistral 7B:
 
 ```bash
-bash start_Mistral_7B.sh
+bash start_mistral_7b.sh
 # nebo
 jarvik-start-7b
 # (k dispozici po spuštění `bash load.sh`)
@@ -52,16 +52,17 @@ jarvik-start-7b
 Podobné skripty jsou připraveny i pro další modely:
 
 ```bash
-bash start_Jarvik_Q4.sh      # jarvik-q4
-bash start_Llama3_8B.sh      # llama3:8b
-bash start_Command_R.sh      # command-r
-bash start_Deepseek_Coder.sh # deepseek-coder
-bash start_Nous_Hermes2.sh   # nous-hermes2
-bash start_Phi3_Mini.sh      # phi3:mini
-bash start_Zephyr.sh         # zephyr
+bash start_jarvik_q4.sh      # jarvik-q4
+bash start_llama3_8b.sh      # llama3:8b
+bash start_command_r.sh      # command-r
+bash start_deepseek_coder.sh # deepseek-coder
+bash start_nous_hermes2.sh   # nous-hermes2
+bash start_phi3_mini.sh      # phi3:mini
+bash start_zephyr.sh         # zephyr
 ```
-Každý z těchto skriptů nejprve spustí `stop_all.sh`,
-který ukončí běžící model i Flask. Přepnutí na jiný model je tak otázkou
+Každý z těchto skriptů volá `switch_model.sh`,
+který nejprve zastaví běžící model i Flask a poté
+spustí novou instanci s vybraným modelem. Přepnutí je tak otázkou
 jednoho příkazu.
 Stejnou hodnotu používá i samotná Flask aplikace.
 
@@ -178,10 +179,10 @@ bash uninstall_jarvik.sh
 ```
 Skript ukončí Ollamu, spuštěný model i Flask, smaže adresáře `venv/` a `memory/` a vyčistí aliasy z `~/.bashrc`.
 
-Pokud chcete pouze zastavit běžící model a Flask bez mazání souborů, spusťte
+Pokud potřebujete Jarvika jen restartovat s jiným modelem, použijte
 
 ```bash
-bash stop_all.sh
+bash switch_model.sh mistral:7b-Q4_K_M
 ```
 
 ## Rychlý start

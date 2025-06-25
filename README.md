@@ -236,10 +236,11 @@ bash uninstall_jarvik.sh
 The script stops Ollama, the model and Flask, removes the `venv/` and
 `memory/` directories and cleans the Jarvik aliases from `~/.bashrc`.
 
-To merely stop the running services without removing anything, execute:
+Chcete-li pouze přepnout na jiný model nebo znovu spustit Jarvik, využijte
+skript `switch_model.sh` se jménem požadovaného modelu:
 
 ```bash
-bash stop_all.sh
+bash switch_model.sh mistral:7b-Q4_K_M
 ```
 
 ## Quick Start Script
