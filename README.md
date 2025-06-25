@@ -143,7 +143,7 @@ the Flask server are up and restarts them when needed.
 To download the latest version, reinstall and start Jarvik automatically run:
 
 ```bash
-bash upgrade.sh  # nebo update.sh
+bash upgrade.sh
 ```
 
 The script pulls the newest repository files, performs an uninstall, installs the dependencies again, reloads the shell aliases and starts all components.
