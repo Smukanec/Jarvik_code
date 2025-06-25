@@ -18,6 +18,6 @@ find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null
 rm -f *.log
 
 # Remove aliases from ~/.bashrc
-sed -i '/# 🚀 Alias příkazy pro JARVIK/,+6d' ~/.bashrc
+sed -i '/# 🚀 Alias příkazy pro JARVIK/,+7d' ~/.bashrc
 
 echo "✅ Jarvik odstraněn."
