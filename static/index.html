@@ -66,6 +66,13 @@
 
   <h2 id="current-model-display">Running model: <span id="current-model">?</span></h2>
   <select id="model-select">
+    <option value="phi3:mini">Phi3 Mini</option>
+    <option value="mistral">Mistral</option>
+    <option value="nous-hermes2">Nous Hermes2</option>
+    <option value="llama3:8b">Llama3 8B</option>
+    <option value="command-r">Command R</option>
+    <option value="zephyr">Zephyr</option>
+    <option value="deepseek-coder">Deepseek Coder</option>
     <option value="gemma:2b">Gemma 2B</option>
     <option value="mistral:7b-Q4_K_M">Mistral 7B</option>
     <option value="jarvik-q4">Jarvik Q4</option>
@@ -95,6 +102,13 @@
 
   <script>
     const MODEL_NAMES = {
+      'phi3:mini': 'Phi3 Mini',
+      'mistral': 'Mistral',
+      'nous-hermes2': 'Nous Hermes2',
+      'llama3:8b': 'Llama3 8B',
+      'command-r': 'Command R',
+      'zephyr': 'Zephyr',
+      'deepseek-coder': 'Deepseek Coder',
       'gemma:2b': 'Gemma 2B',
       'mistral:7b-Q4_K_M': 'Mistral 7B',
       'jarvik-q4': 'Jarvik Q4'
@@ -106,7 +120,14 @@
       const name = MODEL_NAMES[data.model] || data.model;
       document.getElementById('current-model').textContent = name;
       const sel = document.getElementById('model-select');
-      if (sel) sel.value = data.model;
+      if (sel) {
+        let option = Array.from(sel.options).find(o => o.value === data.model);
+        if (!option) {
+          option = new Option(name, data.model);
+          sel.appendChild(option);
+        }
+        sel.value = data.model;
+      }
     }
 
     async function switchModel() {
