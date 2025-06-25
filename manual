@@ -33,7 +33,12 @@ jarvik-start
 Skript aktivuje virtuální prostředí, spustí Ollamu, zvolený model (výchozí
 mistral) a nakonec Flask server na portu 8010. Pokud model chybí, stáhne se
 automaticky. Pro jiný model nastavte proměnnou `MODEL_NAME` při spuštění –
-stejnou hodnotu používá i samotná Flask aplikace.
+všechny dodané skripty ji nyní plně respektují. Například:
+
+```bash
+MODEL_NAME="mistral:7b-Q4_K_M" bash start.sh
+```
+Stejnou hodnotu používá i samotná Flask aplikace.
 
 ### Spuštění pouze modelu
 
