@@ -25,7 +25,7 @@ while true; do
   fi
 
   if [ -f "$MODEL_LOG" ]; then
-    echo "--- Poslední logy Mistralu ---"
+    echo "--- Poslední logy modelu ---"
     tail -n 5 "$MODEL_LOG"
   echo
   else

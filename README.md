@@ -102,6 +102,17 @@ jarvik-start-q4
 # (available after running `bash load.sh`)
 ```
 
+### Switching models while running
+
+Jarvik can change models on the fly. Send a POST request to `/model` with
+`{"model": "name"}` or run the helper script `switch_model.sh`:
+
+```bash
+bash switch_model.sh mistral:7b-Q4_K_M
+```
+
+The application restarts with the new model.
+
 ### Offline usage
 
 If you need to run without internet access, first download the model file (for
