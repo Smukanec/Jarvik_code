@@ -69,11 +69,17 @@ With the aliases loaded you can simply type:
 jarvik-start
 ```
 
+When the web interface is open, a drop-down menu at the top lets you
+restart Jarvik with another model. Selecting a value calls the new
+`/model` API endpoint which stops the current components and launches
+the chosen model.
+
 ### Running with a different model
 
-All management scripts now fully honour the `MODEL_NAME` environment variable.
-The Flask API will query whichever model is specified. To start Jarvik with any
-model simply set the variable when invoking the script. For example:
+Gemma 2B is used by default. All management scripts fully honour the
+`MODEL_NAME` environment variable and the Flask API will query whatever
+model is specified. To start Jarvik with any model simply set the variable
+when invoking the script. For example:
 
 ```bash
 MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik.sh
@@ -101,6 +107,15 @@ bash start_Jarvik_Q4.sh
 jarvik-start-q4
 # (available after running `bash load.sh`)
 ```
+
+To change the running model later on, execute:
+
+```bash
+bash switch_model.sh <model>
+```
+
+The command stops the current services and restarts Jarvik with the
+specified model.
 
 ### Offline usage
 
@@ -243,6 +258,8 @@ Jarvik exposes a few HTTP endpoints on the configured Flask port
 * `GET /memory/search?q=term` – search stored memory entries. When no query is
   provided, the last five entries are returned.
 * `GET /knowledge/search?q=term` – search the local knowledge base files.
+* `GET /model` – return the name of the active model.
+* `POST /model` – restart Jarvik with the specified `{ "model": "name" }`.
 
 ## License
 
