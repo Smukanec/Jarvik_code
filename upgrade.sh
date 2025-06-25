@@ -37,6 +37,6 @@ fi
 bash load.sh
 
 # Start automatically
-bash start_Gemma_2B.sh
+bash start_gemma_2b.sh
 
 echo -e "${GREEN}✅ Upgrade dokončen.${NC}"

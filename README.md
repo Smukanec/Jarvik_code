@@ -84,25 +84,25 @@ Alternatively you can run the dedicated wrapper scripts:
 
 ```bash
 # Default model
-bash start_Gemma_2B.sh
+bash start_gemma_2b.sh
 # or using the alias
 jarvik-start
 
 # Mistral 7B model
-bash start_Mistral_7B.sh
+bash start_mistral_7b.sh
 # or using the alias
 jarvik-start-7b
 # (available after running `bash load.sh`)
 ```
 
-Switching models is seamless because each wrapper calls `stop_all.sh` before
-starting the selected model. Any running model or Flask instance is
-terminated automatically.
+Switching models is seamless because each wrapper calls `switch_model.sh` to
+restart with the selected model. Any running model or Flask instance is
+replaced automatically.
 
 Another helper script starts a pre-quantized Q4 model:
 
 ```bash
-bash start_Jarvik_Q4.sh
+bash start_jarvik_q4.sh
 # or using the alias
 jarvik-start-q4
 # (available after running `bash load.sh`)
@@ -111,12 +111,12 @@ jarvik-start-q4
 Additional wrappers are available for other models:
 
 ```bash
-bash start_Llama3_8B.sh      # llama3:8b
-bash start_Command_R.sh      # command-r
-bash start_Deepseek_Coder.sh # deepseek-coder
-bash start_Nous_Hermes2.sh   # nous-hermes2
-bash start_Phi3_Mini.sh      # phi3:mini
-bash start_Zephyr.sh         # zephyr
+bash start_llama3_8b.sh      # llama3:8b
+bash start_command_r.sh      # command-r
+bash start_deepseek_coder.sh # deepseek-coder
+bash start_nous_hermes2.sh   # nous-hermes2
+bash start_phi3_mini.sh      # phi3:mini
+bash start_zephyr.sh         # zephyr
 ```
 
 ## Supported Models
