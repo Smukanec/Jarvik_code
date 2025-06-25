@@ -2,6 +2,8 @@
 
 Tento krátký manuál popisuje základní kroky pro instalaci a spuštění Jarvika na lokálním stroji.
 
+Ve výchozím nastavení používají skripty model `mistral`. Pokud chcete používat jiný model, nastavte proměnnou `MODEL_NAME` při jejich spouštění.
+
 ## Instalace
 
 1. Spusťte instalační skript, který vytvoří virtuální prostředí a nainstaluje závislosti:
