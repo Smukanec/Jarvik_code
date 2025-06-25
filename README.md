@@ -28,8 +28,8 @@ After installation, add handy shell aliases by executing `load.sh`:
 bash load.sh
 ```
 
-This will append alias commands such as `jarvik-start`, `jarvik-status` and
-`jarvik-model` to your `~/.bashrc` and reload the file.
+This will append alias commands such as `jarvik-start`, `jarvik-status`,
+`jarvik-model` and `jarvik-flask` to your `~/.bashrc` and reload the file.
 
 ## Starting Jarvik
 
@@ -77,6 +77,16 @@ With aliases loaded this is simply:
 
 ```bash
 jarvik-model
+```
+
+### Starting only the Flask server
+
+When the model is already running you can launch just the Flask API:
+
+```bash
+source venv/bin/activate && python main.py
+# or using the alias
+jarvik-flask
 ```
 
 ## Checking Status
