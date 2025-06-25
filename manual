@@ -24,9 +24,9 @@ Ve výchozím nastavení používají skripty model `mistral`. Pokud chcete pou�
 
 ## Spuštění
 
-Jarvika spustíte buď přímo pomocí skriptu `start.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
+Jarvika spustíte buď přímo pomocí skriptu `start_jarvik_mistral.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
 ```bash
-bash start.sh
+bash start_jarvik_mistral.sh
 # nebo
 jarvik-start
 ```
@@ -36,7 +36,14 @@ automaticky. Pro jiný model nastavte proměnnou `MODEL_NAME` při spuštění �
 všechny dodané skripty ji nyní plně respektují. Například:
 
 ```bash
-MODEL_NAME="mistral:7b-Q4_K_M" bash start.sh
+MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik_mistral.sh
+```
+nebo použijte připravený skript pro Mistral 7B:
+
+```bash
+bash start_Mistral_7B.sh
+# nebo
+jarvik-start-7b
 ```
 Stejnou hodnotu používá i samotná Flask aplikace.
 
@@ -74,9 +81,9 @@ Skript ukončí Ollamu, Mistral i Flask, smaže adresáře `venv/` a `memory/` a
 
 ## Rychlý start
 
-Pro jednorázové spuštění všech komponent slouží skript `run_jarvik.sh`, který aktivuje prostředí, spustí model i server v jednom kroku:
+Pro jednorázové spuštění všech komponent slouží skript `start_jarvik_mistral.sh`, který aktivuje prostředí, spustí model i server v jednom kroku:
 ```bash
-bash run_jarvik.sh
+bash start_jarvik_mistral.sh
 ```
 
 ## Upgrade
