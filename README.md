@@ -97,9 +97,12 @@ jarvik-model
 
 ### Starting only the Flask server
 
-When the model is already running you can launch just the Flask API:
+When the model is already running you can launch just the Flask API using the
+new helper script or manually:
 
 ```bash
+bash start_flask.sh
+# or manually
 source venv/bin/activate && python main.py
 # or using the alias
 jarvik-flask

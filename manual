@@ -77,9 +77,12 @@ jarvik-model
 
 ### Spuštění pouze Flasku
 
-Pokud už máte spuštěný model a potřebujete jen Flask server, spusťte:
+Pokud už máte spuštěný model a potřebujete jen Flask server, spusťte nový
+skript nebo příkaz ručně:
 
 ```bash
+bash start_flask.sh
+# nebo ručně
 source venv/bin/activate && python main.py
 ```
 
