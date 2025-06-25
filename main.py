@@ -12,6 +12,8 @@ import tempfile
 
 # Allow custom model via environment variable
 MODEL_NAME = os.getenv("MODEL_NAME", "mistral")
+# Allow choosing the Flask port via environment variable
+FLASK_PORT = int(os.getenv("FLASK_PORT", 8010))
 
 # Set base directory relative to this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -196,5 +198,5 @@ def static_files(path):
     return app.send_static_file(path)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8010)
+    app.run(host="0.0.0.0", port=FLASK_PORT)
 

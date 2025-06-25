@@ -3,6 +3,7 @@
 Tento krátký manuál popisuje základní kroky pro instalaci a spuštění Jarvika na lokálním stroji.
 
 Ve výchozím nastavení používají skripty model `mistral`. Pokud chcete používat jiný model, nastavte proměnnou `MODEL_NAME` při jejich spouštění.
+Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`.
 
 ## Instalace
 
@@ -31,9 +32,10 @@ bash start_jarvik_mistral.sh
 jarvik-start
 ```
 Skript aktivuje virtuální prostředí, spustí Ollamu, zvolený model (výchozí
-mistral) a nakonec Flask server na portu 8010. Pokud model chybí, stáhne se
-automaticky. Pro jiný model nastavte proměnnou `MODEL_NAME` při spuštění –
-všechny dodané skripty ji nyní plně respektují. Například:
+mistral) a nakonec Flask server na portu 8010 (lze změnit proměnnou
+`FLASK_PORT`). Pokud model chybí, stáhne se automaticky. Pro jiný model
+nastavte proměnnou `MODEL_NAME` při spuštění – všechny dodané skripty ji nyní
+plně respektují. Například:
 
 ```bash
 MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik_mistral.sh

@@ -5,6 +5,8 @@ all helper scripts use the `mistral` model from Ollama, but you can override the
 model by setting the `MODEL_NAME` environment variable.
 Jarvik keeps the entire conversation history unless you set the
 `MAX_MEMORY_ENTRIES` environment variable to limit how many exchanges are stored.
+The Flask API listens on port `8010` by default, but you can override this using
+the `FLASK_PORT` environment variable.
 
 ## Installation
 
@@ -210,8 +212,8 @@ The script pulls the newest repository files, performs an uninstall, installs th
 
 ## API Usage
 
-Jarvik exposes a few HTTP endpoints on port `8010` that can be consumed by
-external applications such as ChatGPT:
+Jarvik exposes a few HTTP endpoints on the configured Flask port
+(default `8010`) that can be consumed by external applications such as ChatGPT:
 
 * `POST /ask` – ask Jarvik a question. The conversation is stored in memory.
 * `POST /memory/add` – manually append a `{ "user": "...", "jarvik": "..." }`
