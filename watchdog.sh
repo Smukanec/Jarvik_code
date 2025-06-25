@@ -2,6 +2,13 @@
 GREEN="\033[1;32m"
 RED="\033[1;31m"
 NC="\033[0m"
+# Determine if we can perform port checks
+if command -v ss >/dev/null 2>&1 || command -v nc >/dev/null 2>&1; then
+  PORT_CHECK_AVAILABLE=true
+else
+  echo -e "${RED}⚠️  Příkazy 'ss' ani 'nc' nebyly nalezeny. Kontrola portu Flask bude přeskočena.${NC}"
+  PORT_CHECK_AVAILABLE=false
+fi
 # Default model name can be overridden via MODEL_NAME
 MODEL_NAME=${MODEL_NAME:-mistral}
 MODEL_LOG="${MODEL_NAME}.log"
@@ -31,6 +38,9 @@ check_mistral() {
 }
 
 check_flask() {
+  if [ "$PORT_CHECK_AVAILABLE" = false ]; then
+    return
+  fi
   if ! (ss -tuln 2>/dev/null | grep -q ":8010" || nc -z localhost 8010 >/dev/null 2>&1); then
     echo -e "${RED}⚠️  Flask neběží. Restartuji...${NC}"
     nohup python3 main.py >> flask.log 2>&1 &
