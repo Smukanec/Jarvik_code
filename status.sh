@@ -8,10 +8,27 @@ NC='\033[0m'
 if [ "$#" -gt 0 ]; then
   MODEL_NAMES="$*"
 else
-  MODEL_NAMES="${MODEL_NAMES:-${MODEL_NAME:-gemma:2b}}"
+  if [ -n "$MODEL_NAMES" ]; then
+    :
+  elif [ -n "$MODEL_NAME" ]; then
+    MODEL_NAMES="$MODEL_NAME"
+  else
+    DETECTED_MODELS=$(ps -eo args | awk '/^ollama run /{print $3}' | tr '\n' ' ' | sed 's/ *$//')
+    if [ -n "$DETECTED_MODELS" ]; then
+      MODEL_NAMES="$DETECTED_MODELS"
+      if [[ "$DETECTED_MODELS" == *" "* ]]; then
+        ACTIVE_MSG="Active models: $DETECTED_MODELS"
+      else
+        ACTIVE_MSG="Active model: $DETECTED_MODELS"
+      fi
+    else
+      MODEL_NAMES="gemma:2b"
+    fi
+  fi
 fi
 
 echo "🔍 Kontrola systému JARVIK..."
+[ -n "$ACTIVE_MSG" ] && echo "$ACTIVE_MSG"
 
 # Ollama
 if pgrep -f "ollama serve" > /dev/null; then
