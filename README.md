@@ -1,9 +1,11 @@
 # Jarvik
 
-This repository contains scripts to run the Jarvik assistant locally. By default
-all helper scripts use the `gemma:2b` model from Ollama, but you can override
-the model by setting the `MODEL_NAME` environment variable.
-Jarvik keeps the entire conversation history unless you set the
+This repository contains scripts to run the Jarvik assistant locally. Gemma 2B
+from Ollama is the default model used by all helper scripts. You can switch
+models at any time via the web interface or by calling the `/model` endpoint.
+Alternatively set the `MODEL_NAME` environment variable when starting a script
+to run a different model. Jarvik keeps the entire conversation history unless
+you set the
 `MAX_MEMORY_ENTRIES` environment variable to limit how many exchanges are stored.
 The Flask API listens on port `8010` by default, but you can override this using
 the `FLASK_PORT` environment variable.
@@ -106,10 +108,39 @@ jarvik-start-q4
 # (available after running `bash load.sh`)
 ```
 
+Additional wrappers are available for other models:
+
+```bash
+bash start_Llama3_8B.sh      # llama3:8b
+bash start_Command_R.sh      # command-r
+bash start_Deepseek_Coder.sh # deepseek-coder
+bash start_Nous_Hermes2.sh   # nous-hermes2
+bash start_Phi3_Mini.sh      # phi3:mini
+bash start_Zephyr.sh         # zephyr
+```
+
+## Supported Models
+
+All scripts assume the Gemma 2B model by default, but Jarvik includes wrappers
+for several others. Pull them with `ollama pull` before first use:
+
+```
+ollama pull gemma:2b
+ollama pull mistral:7b-Q4_K_M
+ollama pull jarvik-q4
+ollama pull llama3:8b
+ollama pull command-r
+ollama pull deepseek-coder
+ollama pull nous-hermes2
+ollama pull phi3:mini
+ollama pull zephyr
+```
+
 ### Switching models while running
 
-Jarvik can change models on the fly. Send a POST request to `/model` with
-`{"model": "name"}` or run the helper script `switch_model.sh`:
+Jarvik can change models on the fly. Use the drop-down selector in the web
+interface or send a POST request to `/model` with `{"model": "name"}`. The same
+action is available from the shell via `switch_model.sh`:
 
 ```bash
 bash switch_model.sh mistral:7b-Q4_K_M
@@ -264,6 +295,8 @@ Jarvik exposes a few HTTP endpoints on the configured Flask port
 * `GET /memory/search?q=term` – search stored memory entries. When no query is
   provided, the last five entries are returned.
 * `GET /knowledge/search?q=term` – search the local knowledge base files.
+* `GET /model` – return the currently running model name.
+* `POST /model` – switch models by posting `{ "model": "name" }`.
 
 ## License
 

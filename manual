@@ -2,7 +2,7 @@
 
 Tento krátký manuál popisuje základní kroky pro instalaci a spuštění Jarvika na lokálním stroji.
 
-Ve výchozím nastavení používají skripty model `gemma:2b`. Pokud chcete používat jiný model, nastavte proměnnou `MODEL_NAME` při jejich spouštění.
+Ve výchozím nastavení je použit model `gemma:2b` z Ollamy. Model lze kdykoli změnit ve webovém rozhraní nebo voláním endpointu `/model`. V příkladech je předpokládána Gemma 2B, jiný model zvolíte nastavením proměnné `MODEL_NAME` při spouštění skriptů.
 Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`.
 
 ## Instalace
@@ -48,22 +48,52 @@ bash start_Mistral_7B.sh
 jarvik-start-7b
 # (k dispozici po spuštění `bash load.sh`)
 ```
+
+Podobné skripty jsou připraveny i pro další modely:
+
+```bash
+bash start_Jarvik_Q4.sh      # jarvik-q4
+bash start_Llama3_8B.sh      # llama3:8b
+bash start_Command_R.sh      # command-r
+bash start_Deepseek_Coder.sh # deepseek-coder
+bash start_Nous_Hermes2.sh   # nous-hermes2
+bash start_Phi3_Mini.sh      # phi3:mini
+bash start_Zephyr.sh         # zephyr
+```
 Každý z těchto skriptů nejprve spustí `stop_all.sh`,
 který ukončí běžící model i Flask. Přepnutí na jiný model je tak otázkou
 jednoho příkazu.
 Stejnou hodnotu používá i samotná Flask aplikace.
 
+## Podporované modely
+
+Modely lze stáhnout předem příkazem `ollama pull`:
+
+```bash
+ollama pull gemma:2b
+ollama pull mistral:7b-Q4_K_M
+ollama pull jarvik-q4
+ollama pull llama3:8b
+ollama pull command-r
+ollama pull deepseek-coder
+ollama pull nous-hermes2
+ollama pull phi3:mini
+ollama pull zephyr
+```
+
 ### Přepnutí modelu za běhu
 
 Jarvika lze přepnout na jiný model bez ručního zastavení všech služeb.
-Stačí spustit skript `switch_model.sh` s názvem požadovaného modelu:
+Stačí spustit skript `switch_model.sh` s názvem požadovaného modelu nebo
+vybrat nový model v rozhraní aplikace. Interně se volá endpoint `/model`.
 
 ```bash
 bash switch_model.sh mistral:7b-Q4_K_M
 ```
 
 Případně je možné odeslat HTTP POST požadavek na `/model` s JSON
-`{"model": "jméno"}`. Aplikace se restartuje s novým modelem.
+`{"model": "jméno"}`. Aplikace se restartuje s novým modelem. Dotazem `GET`
+na stejnou adresu zjistíte aktuálně spuštěný model.
 
 ### Offline použití
 
