@@ -40,6 +40,17 @@ PDF and DOCX knowledge base files are supported when the optional packages
 `PyPDF2` and `python-docx` are installed. These are listed as extras in
 `requirements.txt`.
 
+### Text-only mode
+
+If you only work with plain text files you can simplify Jarvik:
+
+1. Edit `static/index.html` so the file input uses `accept=".txt"`.
+2. Remove the `.pdf` and `.docx` branches from the `/ask_file` handler in
+   `main.py`.
+
+After these changes Jarvik will only process TXT files and you may remove the
+`PyPDF2` and `python-docx` packages from your environment.
+
 ## Starting Jarvik
 
 To launch all components run:

@@ -3,8 +3,6 @@ from rag_engine import (
     load_knowledge,
     search_knowledge,
     load_txt_file,
-    load_pdf_file,
-    load_docx_file,
 )
 import json
 import os
@@ -118,10 +116,6 @@ def ask_file():
         try:
             if ext == ".txt":
                 file_text = load_txt_file(tmp_path)
-            elif ext == ".pdf":
-                file_text = load_pdf_file(tmp_path)
-            elif ext == ".docx":
-                file_text = load_docx_file(tmp_path)
             else:
                 debug_log.append(f"Nepodporovaný typ souboru: {uploaded.filename}")
         except Exception as e:
