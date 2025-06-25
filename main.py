@@ -64,11 +64,12 @@ def ask():
             "http://localhost:11434/api/generate",
             json={"model": MODEL_NAME, "prompt": prompt, "stream": False}
         )
+        response.raise_for_status()
         result = response.json()
         output = result.get("response", "").strip()
     except Exception as e:
-        output = "❌ Chyba při komunikaci s Ollamou"
         debug_log.append(str(e))
+        return jsonify({"error": "❌ Chyba při komunikaci s Ollamou", "debug": debug_log}), 500
 
     append_to_memory(message, output)
     return jsonify({"response": output, "debug": debug_log})
