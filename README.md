@@ -67,6 +67,19 @@ bash start_Mistral_7B.sh
 jarvik-start-7b
 ```
 
+### Offline usage
+
+If you need to run without internet access, first download the model file (for
+example using `stahni-mistral-q4.sh`). Create a `Modelfile` that references the
+downloaded `.gguf` file and register it with:
+
+```bash
+ollama create mistral:7b-Q4_K_M -f Modelfile
+```
+
+When you set `LOCAL_MODEL_FILE` to the path of your local model, the start
+scripts will create the Ollama model automatically.
+
 ### Starting only Ollama
 
 When you want just the Ollama service without loading a model, run:
