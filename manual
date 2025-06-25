@@ -47,6 +47,19 @@ jarvik-start-7b
 ```
 Stejnou hodnotu používá i samotná Flask aplikace.
 
+### Offline použití
+
+Pokud nemáte k dispozici internetové připojení, stáhněte si nejprve soubor s
+modelem, například skriptem `stahni-mistral-q4.sh`. Vytvořte `Modelfile` s řádkem
+`FROM /cesta/k/mistral.q4_K_M.gguf` a zaregistrujte model příkazem:
+
+```bash
+ollama create mistral:7b-Q4_K_M -f Modelfile
+```
+
+Nastavíte-li proměnnou `LOCAL_MODEL_FILE` na cestu k tomuto souboru, startovací
+skripty registraci provedou automaticky.
+
 ### Spuštění pouze Ollamy
 
 Pokud potřebujete spustit jen službu Ollama bez načtení modelu, použijte:
