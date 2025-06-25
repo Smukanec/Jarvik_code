@@ -1,8 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, after_this_request
 from rag_engine import (
     load_knowledge,
     search_knowledge,
     load_txt_file,
+    load_pdf_file,
+    load_docx_file,
 )
 import json
 import os
@@ -98,7 +100,7 @@ def ask():
         return jsonify({"error": "❌ Chyba při komunikaci s Ollamou", "debug": debug_log}), 500
 
     append_to_memory(message, output)
-    return jsonify({"response": output, "debug": debug_log})
+
 
 
 @app.route("/ask_file", methods=["POST"])
@@ -108,6 +110,7 @@ def ask_file():
 
     uploaded = request.files.get("file")
     file_text = ""
+    ext = None
     if uploaded and uploaded.filename:
         ext = os.path.splitext(uploaded.filename)[1].lower()
         with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
@@ -116,6 +119,10 @@ def ask_file():
         try:
             if ext == ".txt":
                 file_text = load_txt_file(tmp_path)
+            elif ext == ".pdf":
+                file_text = load_pdf_file(tmp_path)
+            elif ext == ".docx":
+                file_text = load_docx_file(tmp_path)
             else:
                 debug_log.append(f"Nepodporovaný typ souboru: {uploaded.filename}")
         except Exception as e:
@@ -156,6 +163,46 @@ def ask_file():
         )
 
     append_to_memory(message, output)
+
+    if ext in {".txt", ".pdf", ".docx"}:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp_out:
+            out_path = tmp_out.name
+        try:
+            if ext == ".txt":
+                with open(out_path, "w", encoding="utf-8") as f:
+                    f.write(output)
+            elif ext == ".docx":
+                from docx import Document
+                doc = Document()
+                doc.add_paragraph(output)
+                doc.save(out_path)
+            elif ext == ".pdf":
+                from fpdf import FPDF
+                pdf = FPDF()
+                pdf.add_page()
+                pdf.set_auto_page_break(auto=True, margin=15)
+                pdf.set_font("Arial", size=12)
+                for line in output.split("\n"):
+                    pdf.cell(0, 10, txt=line, ln=1)
+                pdf.output(out_path)
+        except Exception as e:
+            debug_log.append(f"Chyba při vytváření souboru: {e}")
+            os.unlink(out_path)
+            return jsonify({"response": output, "debug": debug_log})
+
+        @after_this_request
+        def cleanup(resp):
+            try:
+                os.unlink(out_path)
+            except Exception:
+                pass
+            return resp
+
+        resp = send_file(out_path, as_attachment=True, download_name=f"odpoved{ext}")
+        resp.headers["X-Answer"] = output
+        resp.headers["X-Debug"] = json.dumps(debug_log)
+        return resp
+
     return jsonify({"response": output, "debug": debug_log})
 
 @app.route("/memory/add", methods=["POST"])
