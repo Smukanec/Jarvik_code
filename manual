@@ -2,7 +2,7 @@
 
 Tento krátký manuál popisuje základní kroky pro instalaci a spuštění Jarvika na lokálním stroji.
 
-Ve výchozím nastavení používají skripty model `mistral`. Pokud chcete používat jiný model, nastavte proměnnou `MODEL_NAME` při jejich spouštění.
+Ve výchozím nastavení používají skripty model `gemma:2b`. Pokud chcete používat jiný model, nastavte proměnnou `MODEL_NAME` při jejich spouštění.
 Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`.
 
 ## Instalace
@@ -25,20 +25,20 @@ Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`
 
 ## Spuštění
 
-Jarvika spustíte buď přímo pomocí skriptu `start_jarvik_mistral.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
+Jarvika spustíte buď přímo pomocí skriptu `start_jarvik.sh`, nebo přes alias `jarvik-start` (pokud jste provedli krok s načtením aliasů):
 ```bash
-bash start_jarvik_mistral.sh
+bash start_Gemma_2B.sh
 # nebo
 jarvik-start
 ```
 Skript aktivuje virtuální prostředí, spustí Ollamu, zvolený model (výchozí
-mistral) a nakonec Flask server na portu 8010 (lze změnit proměnnou
+Gemma 2B) a nakonec Flask server na portu 8010 (lze změnit proměnnou
 `FLASK_PORT`). Pokud model chybí, stáhne se automaticky. Pro jiný model
 nastavte proměnnou `MODEL_NAME` při spuštění – všechny dodané skripty ji nyní
 plně respektují. Například:
 
 ```bash
-MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik_mistral.sh
+MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik.sh
 ```
 nebo použijte připravený skript pro Mistral 7B:
 
@@ -131,13 +131,13 @@ Pro zastavení všech služeb a odstranění prostředí použijte:
 ```bash
 bash uninstall_jarvik.sh
 ```
-Skript ukončí Ollamu, Mistral i Flask, smaže adresáře `venv/` a `memory/` a vyčistí aliasy z `~/.bashrc`.
+Skript ukončí Ollamu, spuštěný model i Flask, smaže adresáře `venv/` a `memory/` a vyčistí aliasy z `~/.bashrc`.
 
 ## Rychlý start
 
-Pro jednorázové spuštění všech komponent slouží skript `start_jarvik_mistral.sh`, který aktivuje prostředí, spustí model i server v jednom kroku:
+Pro jednorázové spuštění všech komponent slouží skript `start_jarvik.sh`, který aktivuje prostředí, spustí model i server v jednom kroku:
 ```bash
-bash start_jarvik_mistral.sh
+bash start_jarvik.sh
 ```
 
 ## Upgrade

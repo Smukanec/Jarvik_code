@@ -37,6 +37,6 @@ fi
 bash load.sh
 
 # Start automatically
-bash start_jarvik_mistral.sh
+bash start_Gemma_2B.sh
 
 echo -e "${GREEN}✅ Upgrade dokončen.${NC}"

@@ -6,7 +6,7 @@ if ! grep -q "# 🚀 Alias příkazy pro JARVIK" ~/.bashrc; then
 
 # 🚀 Alias příkazy pro JARVIK
 alias jarvik='bash $DIR/activate.sh'
-alias jarvik-start='bash $DIR/start_jarvik_mistral.sh'
+alias jarvik-start='bash $DIR/start_Gemma_2B.sh'
 alias jarvik-start-7b='bash $DIR/start_Mistral_7B.sh'
 alias jarvik-start-q4='bash $DIR/start_Jarvik_Q4.sh'
 alias jarvik-status='bash $DIR/status.sh'
