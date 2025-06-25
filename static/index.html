@@ -33,6 +33,15 @@
       cursor: pointer;
       margin-top: 0.5em;
     }
+    select {
+      padding: 0.6em;
+      font-size: 1em;
+      border: 2px solid #00ff00;
+      border-radius: 6px;
+      background-color: #1e1e1e;
+      color: #c8f6c8;
+      margin-right: 0.5em;
+    }
     button:hover {
       background-color: #007700;
     }
@@ -59,13 +68,15 @@
 <body>
   <img src="/static/alternativ.png" alt="Jarvik logo">
 
-  <p>Aktivní model: <span id="current-model">?</span></p>
-  <select id="model-select">
-    <option value="mistral">mistral</option>
-    <option value="jarvik-q4">jarvik-q4</option>
-    <option value="mistral:7b-Q4_K_M">mistral:7b-Q4_K_M</option>
-  </select>
-  <button onclick="switchModel()">Přepnout model</button>
+  <h2 id="running">Running model: <span id="current-model">?</span></h2>
+  <div style="margin-bottom:1em;">
+    <select id="model-select">
+      <option value="gemma:2b">Gemma 2B</option>
+      <option value="mistral:7b-Q4_K_M">Mistral 7B</option>
+      <option value="jarvik-q4">Jarvik Q4</option>
+    </select>
+    <button onclick="switchModel()">Switch model</button>
+  </div>
   <pre id="model-status"></pre>
 
   <textarea id="message" rows="4" placeholder="Zadej dotaz…"></textarea><br>
@@ -89,23 +100,31 @@
   <pre id="duration"></pre>
 
   <script>
+    const modelNames = {
+      'gemma:2b': 'Gemma 2B',
+      'mistral:7b-Q4_K_M': 'Mistral 7B',
+      'jarvik-q4': 'Jarvik Q4'
+    };
+
     async function loadModel() {
       const res = await fetch('/model');
       const data = await res.json();
-      document.getElementById('current-model').textContent = data.model;
+      const current = modelNames[data.model] || data.model;
+      document.getElementById('current-model').textContent = current;
       const sel = document.getElementById('model-select');
       if (sel) sel.value = data.model;
     }
 
     async function switchModel() {
       const model = document.getElementById('model-select').value;
-      document.getElementById('model-status').textContent = '⏳ Restartuji...';
+      const name = modelNames[model] || model;
+      document.getElementById('model-status').textContent = `⏳ Switching to ${name}...`;
       await fetch('/model', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ model })
       });
-      document.getElementById('model-status').textContent = '🔄 Restartuji, chvíli strpení...';
+      document.getElementById('model-status').textContent = '🔄 Restarting, please wait...';
     }
 
     loadModel();
