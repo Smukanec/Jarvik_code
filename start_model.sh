@@ -8,6 +8,9 @@ cd "$(dirname "$0")" || exit
 # Default model name can be overridden via MODEL_NAME
 MODEL_NAME=${MODEL_NAME:-mistral}
 MODEL_LOG="${MODEL_NAME}.log"
+# Optional local .gguf file to register as MODEL_NAME when not present
+# Set LOCAL_MODEL_FILE to the path of your .gguf file
+
 
 # Ensure ollama is available
 if ! command -v ollama >/dev/null 2>&1; then
@@ -33,10 +36,21 @@ fi
 
 # Pull the requested model if missing
 if ! ollama list 2>/dev/null | grep -q "^$MODEL_NAME"; then
-  echo -e "${GREEN}⬇️  Stahuji model $MODEL_NAME...${NC}"
-  if ! ollama pull "$MODEL_NAME" >> ollama.log 2>&1; then
-    echo -e "${RED}❌ Stažení modelu selhalo, zkontrolujte připojení${NC}"
-    exit 1
+  CREATED=""
+  if [ -n "$LOCAL_MODEL_FILE" ] && [ -f "$LOCAL_MODEL_FILE" ] && [[ "$LOCAL_MODEL_FILE" == *.gguf ]]; then
+    TMP_MODFILE=$(mktemp)
+    echo "FROM $LOCAL_MODEL_FILE" > "$TMP_MODFILE"
+    if ollama create "$MODEL_NAME" -f "$TMP_MODFILE" >> ollama.log 2>&1; then
+      CREATED=1
+    fi
+    rm -f "$TMP_MODFILE"
+  fi
+  if [ -z "$CREATED" ]; then
+    echo -e "${GREEN}⬇️  Stahuji model $MODEL_NAME...${NC}"
+    if ! ollama pull "$MODEL_NAME" >> ollama.log 2>&1; then
+      echo -e "${RED}❌ Stažení modelu selhalo, zkontrolujte připojení${NC}"
+      exit 1
+    fi
   fi
 fi
 
