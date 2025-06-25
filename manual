@@ -19,8 +19,8 @@ Ve výchozím nastavení používají skripty model `mistral`. Pokud chcete pou�
    ```bash
    bash load.sh
    ```
-   Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`
-   a `jarvik-model`.
+   Do souboru `~/.bashrc` se přidají příkazy jako `jarvik-start`, `jarvik-status`,
+   `jarvik-model` a `jarvik-flask`.
 
 ## Spuštění
 
@@ -59,6 +59,20 @@ Po načtení aliasů stačí příkaz:
 
 ```bash
 jarvik-model
+```
+
+### Spuštění pouze Flasku
+
+Pokud už máte spuštěný model a potřebujete jen Flask server, spusťte:
+
+```bash
+source venv/bin/activate && python main.py
+```
+
+Po načtení aliasů stačí příkaz:
+
+```bash
+jarvik-flask
 ```
 
 ## Stav běžících služeb
