@@ -33,9 +33,14 @@ jarvik-start
 ```
 Skript aktivuje virtuální prostředí, spustí Ollamu, zvolený model (výchozí
 Gemma 2B) a nakonec Flask server na portu 8010 (lze změnit proměnnou
-`FLASK_PORT`). Pokud model chybí, stáhne se automaticky. Pro jiný model
-nastavte proměnnou `MODEL_NAME` při spuštění – všechny dodané skripty ji nyní
-plně respektují. Například:
+`FLASK_PORT`). Pokud model chybí, stáhne se automaticky.
+
+V&nbsp;webovém rozhraní je pod logem přepínač modelů. Po výběru modelu a
+kliknutí na **Přepnout model** se zavolá endpoint `/model`, který Jarvika
+restartuje s vybraným modelem.
+
+Pro jiný model lze také nastavit proměnnou `MODEL_NAME` při spuštění – všechny
+dodané skripty ji nyní plně respektují. Například:
 
 ```bash
 MODEL_NAME="mistral:7b-Q4_K_M" bash start_jarvik.sh
@@ -52,6 +57,14 @@ Každý z těchto skriptů nejprve spustí `stop_all.sh`,
 který ukončí běžící model i Flask. Přepnutí na jiný model je tak otázkou
 jednoho příkazu.
 Stejnou hodnotu používá i samotná Flask aplikace.
+
+Model můžete přepnout i dodatečně příkazem:
+
+```bash
+bash switch_model.sh mistral:7b-Q4_K_M
+```
+
+který volá endpoint `/model` a Jarvik se restartuje se zvoleným modelem.
 
 ### Offline použití
 
@@ -156,3 +169,14 @@ Nejnovější verzi můžete stáhnout a nainstalovat skriptem `upgrade.sh`:
 bash upgrade.sh
 ```
 Skript stáhne nové soubory z repozitáře, provede odinstalování, znovu nainstaluje závislosti, obnoví aliasy v `~/.bashrc` a spustí Jarvika.
+
+## API
+
+Jarvik poskytuje několik HTTP rozhraní na zvoleném portu (výchozí 8010):
+
+* `POST /ask` – položí dotaz Jarvikovi a uloží konverzaci do paměti.
+* `POST /memory/add` – ručně přidá dvojici `{ "user": "...", "jarvik": "..." }`.
+* `GET /memory/search?q=dotaz` – vyhledá v historii, bez dotazu vrací posledních pět záznamů.
+* `GET /knowledge/search?q=dotaz` – vyhledá ve znalostní bázi.
+* `GET /model` – vrátí název aktuálně aktivního modelu.
+* `POST /model` – restartuje Jarvika s novým modelem dle odeslaného JSONu `{\"model\": \"...\"}`.

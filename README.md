@@ -69,6 +69,11 @@ With the aliases loaded you can simply type:
 jarvik-start
 ```
 
+The default model is **Gemma&nbsp;2B**. The web UI includes a selector
+right under the logo for choosing another model. Selecting a value and
+pressing **Přepnout model** calls the `/model` endpoint which restarts
+Jarvik with the chosen model.
+
 ### Running with a different model
 
 All management scripts now fully honour the `MODEL_NAME` environment variable.
@@ -95,7 +100,14 @@ jarvik-start-7b
 
 Switching models is seamless because each wrapper calls `stop_all.sh` before
 starting the selected model. Any running model or Flask instance is
-terminated automatically.
+terminated automatically. To switch from the command line at any time use
+
+```bash
+bash switch_model.sh mistral:7b-Q4_K_M
+```
+
+which restarts Jarvik with the chosen model using the same `/model` endpoint
+as the web UI.
 
 Another helper script starts a pre-quantized Q4 model:
 
@@ -253,6 +265,8 @@ Jarvik exposes a few HTTP endpoints on the configured Flask port
 * `GET /memory/search?q=term` – search stored memory entries. When no query is
   provided, the last five entries are returned.
 * `GET /knowledge/search?q=term` – search the local knowledge base files.
+* `GET /model` – return the name of the currently active model.
+* `POST /model` – restart Jarvik with a new model, e.g. `{"model": "mistral"}`.
 
 ## License
 
