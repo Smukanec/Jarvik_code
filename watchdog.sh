@@ -2,6 +2,8 @@
 GREEN="\033[1;32m"
 RED="\033[1;31m"
 NC="\033[0m"
+# Allow overriding the Flask port
+FLASK_PORT=${FLASK_PORT:-8010}
 # Determine if we can perform port checks
 if command -v ss >/dev/null 2>&1 || command -v nc >/dev/null 2>&1; then
   PORT_CHECK_AVAILABLE=true
@@ -41,7 +43,7 @@ check_flask() {
   if [ "$PORT_CHECK_AVAILABLE" = false ]; then
     return
   fi
-  if ! (ss -tuln 2>/dev/null | grep -q ":8010" || nc -z localhost 8010 >/dev/null 2>&1); then
+  if ! (ss -tuln 2>/dev/null | grep -q ":$FLASK_PORT" || nc -z localhost $FLASK_PORT >/dev/null 2>&1); then
     echo -e "${RED}⚠️  Flask neběží. Restartuji...${NC}"
     nohup python3 main.py >> flask.log 2>&1 &
   fi

@@ -3,6 +3,9 @@ GREEN="\033[1;32m"
 RED="\033[1;31m"
 NC="\033[0m"
 
+# Allow overriding the Flask port
+FLASK_PORT=${FLASK_PORT:-8010}
+
 cd "$(dirname "$0")" || exit
 
 # Model name can be overridden with the MODEL_NAME environment variable
@@ -88,8 +91,8 @@ fi
 echo -e "${GREEN}🌐 Spouštím Flask server...${NC}"
 nohup python3 main.py > flask.log 2>&1 &
 sleep 2
-if ! (ss -tuln 2>/dev/null | grep -q ":8010" || nc -z localhost 8010 >/dev/null 2>&1); then
+if ! (ss -tuln 2>/dev/null | grep -q ":$FLASK_PORT" || nc -z localhost $FLASK_PORT >/dev/null 2>&1); then
   echo -e "${RED}❌ Flask se nespustil, zkontrolujte flask.log${NC}"
   exit 1
 fi
-echo -e "${GREEN}✅ Jarvik běží na http://localhost:8010${NC}"
+echo -e "${GREEN}✅ Jarvik běží na http://localhost:$FLASK_PORT${NC}"
