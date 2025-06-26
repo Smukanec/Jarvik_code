@@ -3,7 +3,7 @@ import sys
 import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-from rag_engine import load_knowledge, search_knowledge
+from rag_engine import KnowledgeBase, load_knowledge, search_knowledge
 
 
 @pytest.fixture
@@ -84,6 +84,16 @@ def test_load_knowledge_all_formats(knowledge_dir):
 
     assert any("PDF knowledge" in c for c in chunks)
     assert any("DOCX knowledge" in c for c in chunks)
+
+
+def test_knowledge_base_reload(knowledge_dir):
+    kb = KnowledgeBase(str(knowledge_dir))
+    assert any("TXT knowledge" in c for c in kb.chunks)
+
+    extra = knowledge_dir / "extra.txt"
+    extra.write_text("Extra", encoding="utf-8")
+    kb.reload()
+    assert any("Extra" in c for c in kb.chunks)
 
 
 def test_search_knowledge_czech_punctuation():

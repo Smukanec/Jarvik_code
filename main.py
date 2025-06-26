@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_file, after_this_request
 from rag_engine import (
-    load_knowledge,
-    search_knowledge,
+    KnowledgeBase,
     load_txt_file,
     load_pdf_file,
     load_docx_file,
@@ -34,7 +33,7 @@ MAX_MEMORY_ENTRIES = int(limit_env) if limit_env and limit_env.isdigit() else No
 app = Flask(__name__)
 
 # Načti znalosti při startu
-knowledge_base = load_knowledge(os.path.join(BASE_DIR, "knowledge"))
+knowledge = KnowledgeBase(os.path.join(BASE_DIR, "knowledge"))
 print("✅ Znalosti načteny.")
 
 def load_memory():
@@ -80,7 +79,7 @@ def ask():
     memory_context = load_memory()
     debug_log.append(f"🧠 Paměť: {len(memory_context)} záznamů")
 
-    rag_context = search_knowledge(message, knowledge_base)
+    rag_context = knowledge.search(message)
     debug_log.append(f"📚 Kontext z RAG: {len(rag_context)} výsledků")
 
     # Vytvoření promptu pro model
@@ -137,7 +136,7 @@ def ask_file():
     memory_context = load_memory()
     debug_log.append(f"🧠 Paměť: {len(memory_context)} záznamů")
 
-    rag_context = search_knowledge(message, knowledge_base)
+    rag_context = knowledge.search(message)
     if file_text:
         rag_context = [file_text] + rag_context
     debug_log.append(f"📚 Kontext z RAG: {len(rag_context)} výsledků")
@@ -232,16 +231,15 @@ def knowledge_search():
     query = request.args.get("q", "")
     if not query:
         return jsonify([])
-    return jsonify(search_knowledge(query, knowledge_base))
+    return jsonify(knowledge.search(query))
 
 
 @app.route("/knowledge/reload", methods=["POST"])
 def knowledge_reload():
     """Reload knowledge base files and return how many chunks were loaded."""
-    global knowledge_base
-    knowledge_base = load_knowledge(os.path.join(BASE_DIR, "knowledge"))
+    knowledge.reload()
     print("✅ Znalosti načteny.")
-    return jsonify({"status": "reloaded", "chunks": len(knowledge_base)})
+    return jsonify({"status": "reloaded", "chunks": len(knowledge.chunks)})
 
 
 @app.route("/model", methods=["GET", "POST"])

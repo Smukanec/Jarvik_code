@@ -41,9 +41,11 @@ This will append alias commands such as `jarvik-start`, `jarvik-status`,
 `jarvik-start-q4` to your `~/.bashrc` and reload the file. The `jarvik-start`
 alias launches the default Gemma 2B model.
 
-PDF and DOCX knowledge base files are supported when the optional packages
-`PyPDF2` and `python-docx` are installed. These are listed as extras in
-`requirements.txt`. Empty files are skipped when loading the knowledge base.
+Knowledge files are loaded from the `knowledge/` folder at startup. Jarvik uses
+the `KnowledgeBase` class from `rag_engine.py`, which reads all `.txt`, `.pdf`
+and `.docx` files and stores their non-empty contents in memory. PDF and DOCX
+support requires the optional packages `PyPDF2` and `python-docx` listed in
+`requirements.txt`.
 
 ### Text-only mode
 
@@ -298,7 +300,7 @@ Jarvik exposes a few HTTP endpoints on the configured Flask port
 * `GET /memory/search?q=term` – search stored memory entries. When no query is
   provided, the last five entries are returned.
 * `GET /knowledge/search?q=term` – search the local knowledge base files.
-* `POST /knowledge/reload` – reload the knowledge base and return the number of loaded chunks.
+* `POST /knowledge/reload` – reload the knowledge base and return the number of loaded chunks. This uses the `KnowledgeBase` class to re-read the `knowledge/` directory.
 * `GET /model` – return the currently running model name.
 
 * `POST /model` – switch models by posting `{ "model": "name" }`.
@@ -309,6 +311,7 @@ Unit tests live in the `tests/` directory. Execute them with:
 
 ```bash
 pytest
+ruff .
 ```
 
 ## License
