@@ -103,3 +103,10 @@ def test_search_knowledge_czech_punctuation():
     ]
     result = search_knowledge("n\u011bco o ipv6?", chunks)
     assert result == ["N\u011bco o IPv6 protokolu."]
+
+
+def test_search_knowledge_word_boundary():
+    """Substring matches should not be returned when ratio is below threshold."""
+    chunks = ["someone"]
+    result = search_knowledge("one", chunks, threshold=0.9)
+    assert result == []
