@@ -3,6 +3,15 @@ import glob
 import re
 from difflib import SequenceMatcher
 
+__all__ = [
+    "load_txt_file",
+    "load_pdf_file",
+    "load_docx_file",
+    "load_knowledge",
+    "search_knowledge",
+    "KnowledgeBase",
+]
+
 def load_txt_file(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
@@ -29,8 +38,9 @@ def load_docx_file(path):
     doc = docx.Document(path)
     return "\n".join([p.text for p in doc.paragraphs])
 
-def load_knowledge(folder):
-    chunks = []
+def _load_folder(folder: str) -> list[str]:
+    """Return a list of non-empty knowledge chunks from *folder*."""
+    chunks: list[str] = []
     for ext in ("*.txt", "*.pdf", "*.docx"):
         for path in glob.glob(os.path.join(folder, ext)):
             try:
@@ -45,9 +55,14 @@ def load_knowledge(folder):
                 content = content.strip()
                 if content:
                     chunks.append(content)
-            except Exception as e:
+            except Exception as e:  # pragma: no cover - just log errors
                 print(f"❌ Nelze načíst {path}: {e}")
     return chunks
+
+
+def load_knowledge(folder: str) -> list[str]:
+    """Backward compatible wrapper returning knowledge chunks."""
+    return _load_folder(folder)
 
 def search_knowledge(query, knowledge_chunks, threshold=0.6):
     """Return up to five knowledge chunks relevant to *query*.
@@ -70,4 +85,21 @@ def search_knowledge(query, knowledge_chunks, threshold=0.6):
 
     matches.sort(key=lambda x: x[0], reverse=True)
     return [m[1] for m in matches[:5]]
+
+
+class KnowledgeBase:
+    """Manage loading and searching local knowledge files."""
+
+    def __init__(self, folder: str):
+        self.folder = folder
+        self.chunks: list[str] = []
+        self.reload()
+
+    def reload(self) -> None:
+        """(Re)load all supported files from :attr:`folder`."""
+        self.chunks = _load_folder(self.folder)
+
+    def search(self, query: str, threshold: float = 0.6) -> list[str]:
+        """Search loaded chunks for *query* using :func:`search_knowledge`."""
+        return search_knowledge(query, self.chunks, threshold)
 
