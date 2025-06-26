@@ -1,5 +1,6 @@
 import os
 import glob
+from difflib import SequenceMatcher
 
 def load_txt_file(path):
     with open(path, "r", encoding="utf-8") as f:
@@ -45,12 +46,24 @@ def load_knowledge(folder):
                 print(f"❌ Nelze načíst {path}: {e}")
     return chunks
 
-def search_knowledge(query, knowledge_chunks):
-    results = []
+def search_knowledge(query, knowledge_chunks, threshold=0.6):
+    """Return up to five knowledge chunks relevant to *query*.
+
+    A chunk is included when it contains the query substring or when the
+    similarity ratio computed via :class:`difflib.SequenceMatcher` exceeds the
+    given *threshold*.
+    """
+
+    query_lower = query.lower()
+    matches = []
+
     for chunk in knowledge_chunks:
-        if query.lower() in chunk.lower():
-            results.append(chunk[:500])  # Zkrať pro prompt
-        if len(results) >= 5:
-            break
-    return results
+        chunk_lower = chunk.lower()
+        ratio = SequenceMatcher(None, query_lower, chunk_lower).ratio()
+
+        if query_lower in chunk_lower or ratio >= threshold:
+            matches.append((ratio, chunk[:500]))  # Shorten for the prompt
+
+    matches.sort(key=lambda x: x[0], reverse=True)
+    return [m[1] for m in matches[:5]]
 
