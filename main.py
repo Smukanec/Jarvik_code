@@ -23,10 +23,11 @@ memory_path = os.path.join(BASE_DIR, "memory", "public.jsonl")
 os.makedirs(os.path.dirname(memory_path), exist_ok=True)
 open(memory_path, "a", encoding="utf-8").close()
 
-# Maximum number of lines to keep in the memory file. Set to 0 for unlimited.
-MAX_MEMORY_ENTRIES = int(os.getenv("MAX_MEMORY_ENTRIES", 0))
-if MAX_MEMORY_ENTRIES <= 0:
-    MAX_MEMORY_ENTRIES = None
+# Jarvik now keeps conversation history indefinitely.
+# To enforce a limit, set the ``MAX_MEMORY_ENTRIES`` environment variable
+# manually before launching the application.
+limit_env = os.getenv("MAX_MEMORY_ENTRIES")
+MAX_MEMORY_ENTRIES = int(limit_env) if limit_env and limit_env.isdigit() else None
 
 app = Flask(__name__)
 
