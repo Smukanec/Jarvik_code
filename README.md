@@ -300,7 +300,16 @@ Jarvik exposes a few HTTP endpoints on the configured Flask port
 * `GET /knowledge/search?q=term` – search the local knowledge base files.
 * `POST /knowledge/reload` – reload the knowledge base and return the number of loaded chunks.
 * `GET /model` – return the currently running model name.
+
 * `POST /model` – switch models by posting `{ "model": "name" }`.
+
+## Running Tests
+
+Unit tests live in the `tests/` directory. Execute them with:
+
+```bash
+pytest
+```
 
 ## License
 
