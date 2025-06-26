@@ -9,7 +9,7 @@ echo "🗑️ Odinstalace Jarvika..."
 
 # Kill running processes
 pkill -f "ollama serve" 2>/dev/null && echo "Zastaven ollama serve" || true
-pkill -f "ollama run $MODEL_NAME" 2>/dev/null && echo "Zastaven $MODEL_NAME" || true
+pkill -f "ollama run" 2>/dev/null && echo "Zastaveny modely" || true
 pkill -f "python3 main.py" 2>/dev/null && echo "Zastaven Flask" || true
 
 # Remove directories and logs
