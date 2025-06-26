@@ -4,6 +4,9 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 NC='\033[0m'
 
+# Allow overriding the Flask port
+FLASK_PORT=${FLASK_PORT:-8010}
+
 # Determine which model(s) to check
 if [ "$#" -gt 0 ]; then
   MODEL_NAMES="$*"
@@ -55,20 +58,20 @@ for MODEL_NAME in $MODEL_NAMES; do
   fi
 done
 
-# Flask port 8010
+# Flask port
 if command -v ss >/dev/null 2>&1; then
-  ss -tuln | grep -q ":8010"
+  ss -tuln | grep -q ":$FLASK_PORT"
   port_check=$?
 elif command -v nc >/dev/null 2>&1; then
-  nc -z localhost 8010 >/dev/null 2>&1
+  nc -z localhost $FLASK_PORT >/dev/null 2>&1
   port_check=$?
 else
   port_check=1
 fi
 if [ "$port_check" = 0 ]; then
-  echo -e "✅ Flask běží (port 8010)"
+  echo -e "✅ Flask běží (port $FLASK_PORT)"
 else
-  echo -e "❌ Flask (port 8010) neběží"
+  echo -e "❌ Flask (port $FLASK_PORT) neběží"
 fi
 
 # Paměť
