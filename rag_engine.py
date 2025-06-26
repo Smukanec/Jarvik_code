@@ -1,5 +1,6 @@
 import os
 import glob
+import re
 from difflib import SequenceMatcher
 
 def load_txt_file(path):
@@ -49,19 +50,20 @@ def load_knowledge(folder):
 def search_knowledge(query, knowledge_chunks, threshold=0.6):
     """Return up to five knowledge chunks relevant to *query*.
 
-    A chunk is included when it contains the query substring or when the
-    similarity ratio computed via :class:`difflib.SequenceMatcher` exceeds the
-    given *threshold*.
+    A chunk is included when any word from the cleaned query appears in it or
+    when the similarity ratio computed via :class:`difflib.SequenceMatcher`
+    exceeds the given *threshold*.
     """
 
-    query_lower = query.lower()
-    matches = []
+    clean_query = re.sub(r"\W+", " ", query.lower())
+    query_words = [w for w in clean_query.split() if w]
 
+    matches = []
     for chunk in knowledge_chunks:
         chunk_lower = chunk.lower()
-        ratio = SequenceMatcher(None, query_lower, chunk_lower).ratio()
+        ratio = SequenceMatcher(None, clean_query, chunk_lower).ratio()
 
-        if query_lower in chunk_lower or ratio >= threshold:
+        if any(word in chunk_lower for word in query_words) or ratio >= threshold:
             matches.append((ratio, chunk[:500]))  # Shorten for the prompt
 
     matches.sort(key=lambda x: x[0], reverse=True)
