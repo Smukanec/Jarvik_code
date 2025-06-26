@@ -232,6 +232,15 @@ def knowledge_search():
     return jsonify(search_knowledge(query, knowledge_base))
 
 
+@app.route("/knowledge/reload", methods=["POST"])
+def knowledge_reload():
+    """Reload knowledge base files and return how many chunks were loaded."""
+    global knowledge_base
+    knowledge_base = load_knowledge(os.path.join(BASE_DIR, "knowledge"))
+    print("✅ Znalosti načteny.")
+    return jsonify({"status": "reloaded", "chunks": len(knowledge_base)})
+
+
 @app.route("/model", methods=["GET", "POST"])
 def model_route():
     """Get or switch the active model."""
