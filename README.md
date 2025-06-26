@@ -296,6 +296,7 @@ Jarvik exposes a few HTTP endpoints on the configured Flask port
 * `GET /memory/search?q=term` – search stored memory entries. When no query is
   provided, the last five entries are returned.
 * `GET /knowledge/search?q=term` – search the local knowledge base files.
+* `POST /knowledge/reload` – reload the knowledge base and return the number of loaded chunks.
 * `GET /model` – return the currently running model name.
 * `POST /model` – switch models by posting `{ "model": "name" }`.
 
