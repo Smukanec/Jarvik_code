@@ -43,7 +43,7 @@ alias launches the default Gemma 2B model.
 
 PDF and DOCX knowledge base files are supported when the optional packages
 `PyPDF2` and `python-docx` are installed. These are listed as extras in
-`requirements.txt`.
+`requirements.txt`. Empty files are skipped when loading the knowledge base.
 
 ### Text-only mode
 

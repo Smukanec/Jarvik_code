@@ -42,7 +42,9 @@ def load_knowledge(folder):
                     content = load_docx_file(path)
                 else:
                     continue
-                chunks.append(content.strip())
+                content = content.strip()
+                if content:
+                    chunks.append(content)
             except Exception as e:
                 print(f"❌ Nelze načíst {path}: {e}")
     return chunks
