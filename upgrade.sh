@@ -11,14 +11,27 @@ if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/n
   if [ -n "$(git remote)" ]; then
     echo -e "${GREEN}🔄 Stahuji nejnovější verzi...${NC}"
     BEFORE_HASH="$(sha256sum "$0" | awk '{print $1}')"
-    if git pull; then
+
+    STASHED=""
+    if ! git diff-index --quiet HEAD -- || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+      if git stash push -u -m "upgrade-temp-stash" >/dev/null 2>&1; then
+        STASHED=1
+      fi
+    fi
+
+    if git pull --rebase; then
       AFTER_HASH="$(sha256sum "$0" | awk '{print $1}')"
       if [ "$BEFORE_HASH" != "$AFTER_HASH" ]; then
         echo -e "${GREEN}🔁 Skript byl aktualizován, znovu jej spouštím...${NC}"
+        if [ -n "$STASHED" ]; then git stash pop >/dev/null 2>&1 || true; fi
         exec "$0" "$@"
       fi
     else
       echo -e "\033[1;33m⚠️  Nelze stáhnout nové soubory.\033[0m"
+    fi
+
+    if [ -n "$STASHED" ]; then
+      git stash pop >/dev/null 2>&1 || true
     fi
   else
     echo -e "${GREEN}⚠️  Git remote není nastaven, stahování vynecháno.${NC}"
