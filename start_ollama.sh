@@ -16,12 +16,12 @@ if ! pgrep -f "ollama serve" > /dev/null; then
   echo -e "${GREEN}🚀 Spouštím Ollama...${NC}"
   nohup ollama serve > ollama.log 2>&1 &
   for i in {1..10}; do
-    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+    if curl -s ${OLLAMA_URL:-http://localhost:11434}/api/tags >/dev/null 2>&1; then
       break
     fi
     sleep 1
   done
-  if ! curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+  if ! curl -s ${OLLAMA_URL:-http://localhost:11434}/api/tags >/dev/null 2>&1; then
     echo -e "${RED}❌ Ollama se nespustila, zkontrolujte ollama.log${NC}"
     exit 1
   fi

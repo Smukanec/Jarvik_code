@@ -15,6 +15,8 @@ import subprocess
 MODEL_NAME = os.getenv("MODEL_NAME", "gemma:2b")
 # Allow choosing the Flask port via environment variable
 FLASK_PORT = int(os.getenv("FLASK_PORT", 8010))
+# Base URL for the Ollama server
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
 
 # Set base directory relative to this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -91,7 +93,7 @@ def ask():
     try:
         import requests
         response = requests.post(
-            "http://localhost:11434/api/generate",
+            f"{OLLAMA_URL}/api/generate",
             json={"model": MODEL_NAME, "prompt": prompt, "stream": False}
         )
         response.raise_for_status()
@@ -151,7 +153,7 @@ def ask_file():
     try:
         import requests
         response = requests.post(
-            "http://localhost:11434/api/generate",
+            f"{OLLAMA_URL}/api/generate",
             json={"model": MODEL_NAME, "prompt": prompt, "stream": False},
         )
         response.raise_for_status()
