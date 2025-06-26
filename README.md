@@ -8,7 +8,9 @@ to run a different model. Jarvik now keeps the entire conversation history by
 default. To enforce a limit, set the `MAX_MEMORY_ENTRIES` environment variable
 before launching.
 The Flask API listens on port `8010` by default, but you can override this using
-the `FLASK_PORT` environment variable.
+the `FLASK_PORT` environment variable. Set `OLLAMA_URL` to point at a remote
+Ollama instance if it is not running locally (defaults to
+`http://localhost:11434`).
 
 ## Installation
 

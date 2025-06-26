@@ -4,6 +4,8 @@ Tento krátký manuál popisuje základní kroky pro instalaci a spuštění Jar
 
 Ve výchozím nastavení je použit model `gemma:2b` z Ollamy. Model lze kdykoli změnit ve webovém rozhraní nebo voláním endpointu `/model`. V příkladech je předpokládána Gemma 2B, jiný model zvolíte nastavením proměnné `MODEL_NAME` při spouštění skriptů.
 Flask API naslouchá na portu `8010`, který lze změnit proměnnou `FLASK_PORT`.
+Pro vzdálenou Ollamu nastavte proměnnou `OLLAMA_URL` (výchozí
+`http://localhost:11434`).
 
 ## Instalace
 
